@@ -3,7 +3,7 @@
  "displayName": "Texty",
  "description": "Sweet set of text utilities",
  "publisher": "datasert",
- "version": "0.0.3",
+ "version": "0.0.4",
  "repository": {
   "url": "https://github.com/datasert/vscode-texty"
  },
