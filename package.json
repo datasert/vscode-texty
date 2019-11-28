@@ -1,5 +1,5 @@
 {
- "name": "texty",
+ "name": "vscode-texty",
  "displayName": "Texty",
  "description": "Sweet set of text utilities",
  "publisher": "datasert",
@@ -217,11 +217,12 @@
  "devDependencies": {
   "@types/glob": "^7.1.1",
   "@types/jwt-decode": "^2.2.1",
-  "@types/lodash": "^4.17.15",
+  "@types/lodash": "^4.14.149",
   "@types/mocha": "^5.2.7",
   "@types/node": "^12.11.7",
   "@types/uuid": "^3.4.6",
   "@types/vscode": "^1.40.0",
+  "@types/lorem-ipsum": "^2.0.0",
   "glob": "^7.1.5",
   "mocha": "^6.2.2",
   "tslint": "^5.20.0",
