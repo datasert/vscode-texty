@@ -3,7 +3,7 @@
  "displayName": "Texty",
  "description": "Sweet set of text utilities",
  "publisher": "datasert",
- "version": "0.0.4",
+ "version": "0.0.5",
  "repository": {
   "url": "https://github.com/datasert/vscode-texty"
  },
@@ -15,9 +15,9 @@
   "Other"
  ],
  "keywords": [
-   "text-utilities",
-   "encode/decode",
-   "case change"
+  "text-utilities",
+  "encode/decode",
+  "case change"
  ],
  "preview": true,
  "activationEvents": [
