@@ -4,7 +4,7 @@ Texty is a set of Text related utilities that could be used, in general, in all 
 
 All Texty commands are prefixed with `Texty: ` to make it clear and avoid confusion.
 
-If you have any issues, please create an issue at https://github.com/datasert/texty/issues
+If you have any issues, please create an issue at https://github.com/datasert/vscode-texty/issues
 
 Insert
 --
