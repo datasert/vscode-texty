@@ -1,46 +1,238 @@
 {
-	"name": "texty",
-	"displayName": "Texty",
-	"description": "Sweet set of text utilities",
-	"publisher": "datasert",
-	"version": "0.0.2",
-	"repository": {
-		"url": "https://github.com/datasert/texty"
-	},
-	"engines": {
-		"vscode": "^1.40.0"
-	},
-	"categories": [
-		"Other"
-	],
-	"activationEvents": [
-		"onCommand:texty.createIssue"
-	],
-	"main": "./out/extension.js",
-	"contributes": {
-		"commands": [
-			{
-				"command": "texty.createIssue",
-				"title": "Texty: Create Issue"
-			}
-		]
-	},
-	"scripts": {
-		"vscode:prepublish": "yarn run compile",
-		"compile": "tsc -p ./",
-		"watch": "tsc -watch -p ./",
-		"pretest": "yarn run compile",
-		"test": "node ./out/test/runTest.js"
-	},
-	"devDependencies": {
-		"@types/glob": "^7.1.1",
-		"@types/mocha": "^5.2.7",
-		"@types/node": "^12.11.7",
-		"@types/vscode": "^1.40.0",
-		"glob": "^7.1.5",
-		"mocha": "^6.2.2",
-		"typescript": "^3.6.4",
-		"tslint": "^5.20.0",
-		"vscode-test": "^1.2.2"
-	}
+ "name": "texty",
+ "displayName": "Texty",
+ "description": "Sweet set of text utilities",
+ "publisher": "datasert",
+ "version": "0.0.3",
+ "repository": {
+  "url": "https://github.com/datasert/vscode-texty"
+ },
+ "engines": {
+  "vscode": "^1.40.0"
+ },
+ "icon": "texty.png",
+ "categories": [
+  "Other"
+ ],
+ "activationEvents": [
+  "onCommand:texty.insertUuid",
+  "onCommand:texty.insertUuidKey",
+  "onCommand:texty.insertLoremIpsumParagraph",
+  "onCommand:texty.insertLoremIpsumSentence",
+  "onCommand:texty.insertLoremPicsum",
+  "onCommand:texty.insertLoremPicsumWithOptions",
+  "onCommand:texty.convertToLowerCase",
+  "onCommand:texty.convertToUpperCase",
+  "onCommand:texty.convertToCamelCase",
+  "onCommand:texty.convertToPascalCase",
+  "onCommand:texty.convertToSnakeCase",
+  "onCommand:texty.convertToKebabCase",
+  "onCommand:texty.convertToConstantCase",
+  "onCommand:texty.convertToDotCase",
+  "onCommand:texty.convertToPathCase",
+  "onCommand:texty.convertToSpaceCase",
+  "onCommand:texty.convertToCapitalCase",
+  "onCommand:texty.convertToSentenceCase",
+  "onCommand:texty.viewMd5Hash",
+  "onCommand:texty.encryptText",
+  "onCommand:texty.decryptText",
+  "onCommand:texty.urlEncode",
+  "onCommand:texty.urlDecode",
+  "onCommand:texty.base64Encode",
+  "onCommand:texty.base64Decode",
+  "onCommand:texty.htmlEncode",
+  "onCommand:texty.htmlDecode",
+  "onCommand:texty.xmlEncode",
+  "onCommand:texty.xmlDecode",
+  "onCommand:texty.jwtDecode",
+  "onCommand:texty.createIssue"
+ ],
+ "main": "./out/extension.js",
+ "contributes": {
+  "commands": [
+   {
+    "category": "Texty",
+    "command": "texty.insertUuid",
+    "title": "Insert Uuid"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertUuidKey",
+    "title": "Insert Uuid Key"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertLoremIpsumParagraph",
+    "title": "Insert Lorem Ipsum Paragraph"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertLoremIpsumSentence",
+    "title": "Insert Lorem Ipsum Sentence"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertLoremPicsum",
+    "title": "Insert Lorem Picsum Image Tags"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertLoremPicsumWithOptions",
+    "title": "Insert Lorem Picsum Image Tags with Options"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToCapitalCase",
+    "title": "Convert to Upper Case (account number => Account Number)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToLowerCase",
+    "title": "Convert to Lower Case (Account Number => account number)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToUpperCase",
+    "title": "Convert to Upper Case (Account Number => ACCOUNT NUMBER)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToCamelCase",
+    "title": "Convert to Camel Case (account number => accountNumber)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToPascalCase",
+    "title": "Convert to Pascal Case (account number => accountNumber)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToSnakeCase",
+    "title": "Convert to Snake Case (account number => accountNumber)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToKebabCase",
+    "title": "Convert to Kebab Case (account number => accountNumber)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToConstantCase",
+    "title": "Convert to Constant Case (account number => accountNumber)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToDotCase",
+    "title": "Convert to Dot Case (account number => accountNumber)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToPathCase",
+    "title": "Convert to Path Case (account number => accountNumber)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToSpaceCase",
+    "title": "Convert to Space Case (account number => accountNumber)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.convertToSentenceCase",
+    "title": "Convert to Sentence Case (account number => accountNumber)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.viewMd5Hash",
+    "title": "Views Md5 hash"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.encryptText",
+    "title": "Encrypt Text using Password"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.decryptText",
+    "title": "Decrypt Text using Password"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.urlEncode",
+    "title": "Url Encode"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.urlDecode",
+    "title": "Url Decode"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.base64Encode",
+    "title": "Base64 Encode"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.base64Decode",
+    "title": "Base64 Decode"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.htmlEncode",
+    "title": "Html Encode"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.htmlDecode",
+    "title": "Html Decode"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.xmlEncode",
+    "title": "Xml Encode"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.xmlDecode",
+    "title": "Xml Decode"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.jwtDecode",
+    "title": "Jwt Decode"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.createIssue",
+    "title": "Create Issue"
+   }
+  ]
+ },
+ "scripts": {
+  "vscode:prepublish": "yarn run compile",
+  "compile": "tsc -p ./",
+  "watch": "tsc -watch -p ./",
+  "pretest": "yarn run compile",
+  "test": "node ./out/test/runTest.js"
+ },
+ "devDependencies": {
+  "@types/glob": "^7.1.1",
+  "@types/jwt-decode": "^2.2.1",
+  "@types/lodash": "^4.17.15",
+  "@types/mocha": "^5.2.7",
+  "@types/node": "^12.11.7",
+  "@types/uuid": "^3.4.6",
+  "@types/vscode": "^1.40.0",
+  "glob": "^7.1.5",
+  "mocha": "^6.2.2",
+  "tslint": "^5.20.0",
+  "typescript": "^3.6.4",
+  "vscode-test": "^1.2.2"
+ },
+ "dependencies": {
+  "entities": "^2.0.0",
+  "jwt-decode": "^2.2.0",
+  "lodash": "^4.17.15",
+  "lorem-ipsum": "^2.0.3",
+  "uuid": "^3.3.3"
+ }
 }
