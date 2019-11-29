@@ -1,14 +1,14 @@
-import * as uuid from 'uuid';
-import * as texty from '../types';
+import uuid from 'uuid';
+import * as utils from '../utils';
 
-export class UuidOptions {
-  prefix = '';
-  suffix = '';
+export function generateUuid(): string {
+  return uuid();
 }
 
-export function insertUuid(sels: texty.Selection[], options: UuidOptions = new UuidOptions()): texty.Selection[] {
-  return sels.map(sel => {
-    sel.newContent = options.prefix + uuid() + options.suffix;
-    return sel;
-  });
+export function generateUuidKey(): string {
+  return '{' + uuid() + '}';
+}
+
+export function generateUuidNoDashes(): string {
+  return utils.replaceAll(uuid(), '-', '');
 }

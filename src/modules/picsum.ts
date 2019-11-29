@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import * as texty from '../types';
 
 export class Options {
   id = 0;
@@ -15,7 +14,11 @@ function getRandomId() {
   return parseInt('' + (Math.random() * (max - min) + min), 10);
 }
 
-function generate(options: Options) {
+export function generatePicsum(options: Options | undefined) {
+  if (!options) {
+    return undefined;
+  }
+
   let tag = `<img src="https://picsum.photos`;
   if (options.id === 0) {
     tag += '/id/' + getRandomId();
@@ -39,13 +42,6 @@ function generate(options: Options) {
 
   tag += '"/>';
   return tag;
-}
-
-export function insertPicsum(sels: texty.Selection[], options = new Options()): texty.Selection[] {
-  return sels.map(sel => {
-    sel.newContent = generate(options);
-    return sel;
-  });
 }
 
 export async function getPicsumOptions(context: vscode.ExtensionContext, prompt: boolean = false) {

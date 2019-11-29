@@ -1,29 +1,16 @@
-import * as _ from "lodash";
-import * as texty from '../types';
-
-export enum Type {
-  CapitalCase,
-  LowerCase,
-  UpperCase,
-  CamelCase,
-  PascalCase,
-  SnakeCase,
-  KebabCase,
-  ConstantCase,
-  DotCase,
-  PathCase,
-  SpaceCase,
-  SentenceCase,
-}
-
-export interface Options {
-  type: Type;
-}
+import toLower from 'lodash.tolower';
+import toUpper from 'lodash.toupper';
+import camelCase from 'lodash.camelcase';
+import capitalize from 'lodash.capitalize';
+import kebabCase from 'lodash.kebabcase';
+import replace from 'lodash.replace';
+import snakeCase from 'lodash.snakecase';
+import upperFirst from 'lodash.upperfirst';
 
 /**
  * Normalizes given text into spaced words by words boundary. Word boundary is any special char, or capital case.
  */
-function normalize(content: string) {
+function splitWords(content: string) {
   const parts: string[] = [];
   content.split(/[./\-_ ]/).forEach(split => {
     const values = split.split(/([A-Z][a-z]+)/).map(val => val.trim()).filter(val => val !== '');
@@ -33,29 +20,54 @@ function normalize(content: string) {
   return parts.join(' ');
 }
 
-function convert(content: string, options: Options): string | undefined {
-  switch(options.type) {
-    case Type.LowerCase: return _.toLower(content);
-    case Type.UpperCase: return _.toUpper(content);
-    case Type.CapitalCase: return _.capitalize(content);
-    case Type.CamelCase: return _.camelCase(content);
-    case Type.PascalCase: return _.upperFirst(_.camelCase(content));
-    case Type.SnakeCase: return _.snakeCase(content);
-    case Type.ConstantCase: return _.toUpper(_.snakeCase(content));
-    case Type.KebabCase: return _.kebabCase(content);
-    case Type.DotCase: return _.replace(content, / /g, '.');
-    case Type.PathCase: return _.replace(content, / /g, '/');
-    case Type.SpaceCase: return content;
-    case Type.SentenceCase: return _.replace(_.kebabCase(content), /-/g, ' ');
-  }
+function processWords(content: string, handler: (words: string) => string): string {
+  return content.split('\n').map(line => handler(splitWords(line))).join('\n');
 }
 
-export function convertTo(sels: texty.Selection[], options: Options): texty.Selection[] {
-  return sels.map(sel => {
-    if (sel.content) {
-      sel.newContent = sel.content.split('\n').map(line => convert(normalize(line), options)).join('\n');
-    }
+export function convertToLowerCase(content: string): string {
+  return toLower(content);
+}
 
-    return sel;
-  });
+export function convertToUpperCase(content: string): string {
+  return toUpper(content);
+}
+
+export function convertToCapitalCase(content: string): string {
+  return capitalize(content);
+}
+
+export function convertToCamelCase(content: string): string {
+  return processWords(content, words => camelCase(words));
+}
+
+export function convertToPascalCase(content: string): string {
+  return processWords(content, words => upperFirst(camelCase(words)));
+}
+
+export function convertToSnakeCase(content: string): string {
+  return processWords(content, words => snakeCase(words));
+}
+
+export function convertToConstantCase(content: string): string {
+  return processWords(content, words => toUpper(snakeCase(words)));
+}
+
+export function convertToKebabCase(content: string): string {
+  return processWords(content, words => kebabCase(words));
+}
+
+export function convertToDotCase(content: string): string {
+  return processWords(content, words => replace(words, / /g, '.'));
+}
+
+export function convertToPathCase(content: string): string {
+  return processWords(content, words => replace(words, / /g, '/'));
+}
+
+export function convertToSpaceCase(content: string): string {
+  return processWords(content, words => words);
+}
+
+export function convertToSentenceCase(content: string): string {
+  return processWords(content, words => upperFirst(words));
 }

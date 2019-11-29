@@ -3,7 +3,7 @@
  "displayName": "Texty",
  "description": "Sweet set of text utilities",
  "publisher": "datasert",
- "version": "0.0.5",
+ "version": "0.0.6",
  "repository": {
   "url": "https://github.com/datasert/vscode-texty"
  },
@@ -23,6 +23,7 @@
  "activationEvents": [
   "onCommand:texty.insertUuid",
   "onCommand:texty.insertUuidKey",
+  "onCommand:texty.insertUuidNoDashes",
   "onCommand:texty.insertLoremIpsumParagraph",
   "onCommand:texty.insertLoremIpsumSentence",
   "onCommand:texty.insertLoremPicsum",
@@ -50,7 +51,22 @@
   "onCommand:texty.htmlDecode",
   "onCommand:texty.xmlEncode",
   "onCommand:texty.xmlDecode",
-  "onCommand:texty.jwtDecode",
+  "onCommand:texty.sortLines",
+  "onCommand:texty.sortLinesReverse",
+  "onCommand:texty.sortLinesIgnoreCase",
+  "onCommand:texty.sortLinesIgnoreCaseReverse",
+  "onCommand:texty.sortLinesByLength",
+  "onCommand:texty.sortLinesByLengthReverse",
+  "onCommand:texty.sortLinesRandom",
+  "onCommand:texty.sortLinesNatural",
+  "onCommand:texty.sortLinesNaturalReverse",
+  "onCommand:texty.removeDuplicates",
+  "onCommand:texty.removeDuplicatesIgnoreCase",
+  "onCommand:texty.removeBlankLines",
+  "onCommand:texty.splitBySentences",
+  "onCommand:texty.splitByLength",
+  "onCommand:texty.splitByLength120",
+  "onCommand:texty.splitByLength80",
   "onCommand:texty.createIssue"
  ],
  "main": "./out/extension.js",
@@ -64,7 +80,12 @@
    {
     "category": "Texty",
     "command": "texty.insertUuidKey",
-    "title": "Insert Uuid Key"
+    "title": "Insert Uuid (Registery Key Format)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertUuidNoDashes",
+    "title": "Insert Uuid (No Dashes)"
    },
    {
     "category": "Texty",
@@ -89,62 +110,62 @@
    {
     "category": "Texty",
     "command": "texty.convertToCapitalCase",
-    "title": "Convert to Upper Case (account number => Account Number)"
+    "title": "Convert to Upper Case (For ex., Account Number)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToLowerCase",
-    "title": "Convert to Lower Case (Account Number => account number)"
+    "title": "Convert to Lower Case (For ex., account number)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToUpperCase",
-    "title": "Convert to Upper Case (Account Number => ACCOUNT NUMBER)"
+    "title": "Convert to Upper Case (For ex., ACCOUNT NUMBER)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToCamelCase",
-    "title": "Convert to Camel Case (account number => accountNumber)"
+    "title": "Convert to Camel Case (For ex., accountNumber)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToPascalCase",
-    "title": "Convert to Pascal Case (account number => accountNumber)"
+    "title": "Convert to Pascal Case (For ex., AccountNumber)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToSnakeCase",
-    "title": "Convert to Snake Case (account number => accountNumber)"
+    "title": "Convert to Snake Case (For ex., account_number)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToKebabCase",
-    "title": "Convert to Kebab Case (account number => accountNumber)"
+    "title": "Convert to Kebab Case (For ex., account-number)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToConstantCase",
-    "title": "Convert to Constant Case (account number => accountNumber)"
+    "title": "Convert to Constant Case (For ex., ACCOUNT_NUMBER)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToDotCase",
-    "title": "Convert to Dot Case (account number => accountNumber)"
+    "title": "Convert to Dot Case (For ex., account.number)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToPathCase",
-    "title": "Convert to Path Case (account number => accountNumber)"
+    "title": "Convert to Path Case (For ex., account/number)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToSpaceCase",
-    "title": "Convert to Space Case (account number => accountNumber)"
+    "title": "Convert to Space Case (For ex., account number)"
    },
    {
     "category": "Texty",
     "command": "texty.convertToSentenceCase",
-    "title": "Convert to Sentence Case (account number => accountNumber)"
+    "title": "Convert to Sentence Case (For ex., Account number)"
    },
    {
     "category": "Texty",
@@ -208,6 +229,86 @@
    },
    {
     "category": "Texty",
+    "command": "texty.sortLines",
+    "title": "Sort Lines"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.sortLinesReverse",
+    "title": "Sort Lines (Descending)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.sortLinesIgnoreCase",
+    "title": "Sort Lines (Ignore Case)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.sortLinesIgnoreCaseReverse",
+    "title": "Sort Lines (Descending Ignore Case)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.sortLinesByLength",
+    "title": "Sort Lines (Length)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.sortLinesByLengthReverse",
+    "title": "Sort Lines (Length Descending)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.sortLinesShuffle",
+    "title": "Sort Lines (Shuffle)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.sortLinesNatural",
+    "title": "Sort Lines (Natural)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.sortLinesNaturalReverse",
+    "title": "Sort Lines (Natural Descending)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.removeDuplicates",
+    "title": "Remove Duplicate Lines"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.removeDuplicatesIgnoreCase",
+    "title": "Remove Duplicate Lines (Ignore Case)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.removeBlankLines",
+    "title": "Remove Blank Lines"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.splitBySentences",
+    "title": "Split by Sentences"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.splitByLength120",
+    "title": "Split by Length (120 chars)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.splitByLength80",
+    "title": "Split by Length (80 chars)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.splitByLength",
+    "title": "Split by Length"
+   },
+   {
+    "category": "Texty",
     "command": "texty.createIssue",
     "title": "Create Issue"
    }
@@ -223,12 +324,20 @@
  "devDependencies": {
   "@types/glob": "^7.1.1",
   "@types/jwt-decode": "^2.2.1",
-  "@types/lodash": "^4.14.149",
+  "@types/lodash.camelcase": "^4.3.6",
+  "@types/lodash.capitalize": "^4.2.6",
+  "@types/lodash.kebabcase": "^4.1.6",
+  "@types/lodash.replace": "^4.1.6",
+  "@types/lodash.snakecase": "^4.1.6",
+  "@types/lodash.tolower": "^4.1.6",
+  "@types/lodash.toupper": "^4.1.6",
+  "@types/lodash.upperfirst": "^4.3.6",
+  "@types/lorem-ipsum": "^2.0.0",
   "@types/mocha": "^5.2.7",
-  "@types/node": "^12.11.7",
+  "@types/node": "^12.12.14",
+  "@types/sjcl": "^1.0.28",
   "@types/uuid": "^3.4.6",
   "@types/vscode": "^1.40.0",
-  "@types/lorem-ipsum": "^2.0.0",
   "glob": "^7.1.5",
   "mocha": "^6.2.2",
   "tslint": "^5.20.0",
@@ -238,8 +347,16 @@
  "dependencies": {
   "entities": "^2.0.0",
   "jwt-decode": "^2.2.0",
-  "lodash": "^4.17.15",
+  "lodash.camelcase": "^4.3.0",
+  "lodash.capitalize": "^4.2.1",
+  "lodash.kebabcase": "^4.1.1",
+  "lodash.replace": "^4.1.4",
+  "lodash.snakecase": "^4.1.1",
+  "lodash.tolower": "^4.1.2",
+  "lodash.toupper": "^4.1.2",
+  "lodash.upperfirst": "^4.3.1",
   "lorem-ipsum": "^2.0.3",
+  "sjcl": "^1.0.8",
   "uuid": "^3.3.3"
  }
 }

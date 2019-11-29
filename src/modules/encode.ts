@@ -1,49 +1,38 @@
 import * as entities from "entities";
-import * as jwtDecoder from "jwt-decode";
-import * as texty from '../types';
+import jwtDecoder from "jwt-decode";
 
-function process(sels: texty.Selection[], handler: (value: string) => string): texty.Selection[] {
-  return sels.map(sel => {
-    if (sel.content) {
-      sel.newContent = handler(sel.content);
-    }
-
-    return sel;
-  });
+export function urlEncode(sel: string): string {
+  return encodeURIComponent(sel);
 }
 
-export function urlEncode(sels: texty.Selection[]): texty.Selection[] {
-  return process(sels, value => encodeURIComponent(value));
+export function urlDecode(sel: string): string {
+  return decodeURIComponent(sel);
 }
 
-export function urlDecode(sels: texty.Selection[]): texty.Selection[] {
-  return process(sels, value => decodeURIComponent(value));
+export function htmlEncode(sel: string): string {
+  return entities.encodeHTML5(sel);
 }
 
-export function htmlEncode(sels: texty.Selection[]): texty.Selection[] {
-  return process(sels, value => entities.encodeHTML5(value));
+export function htmlDecode(sel: string): string {
+  return entities.decodeHTML5(sel);
 }
 
-export function htmlDecode(sels: texty.Selection[]): texty.Selection[] {
-  return process(sels, value => entities.decodeHTML5(value));
+export function xmlEncode(sel: string): string {
+  return entities.encodeXML(sel);
 }
 
-export function xmlEncode(sels: texty.Selection[]): texty.Selection[] {
-  return process(sels, value => entities.encodeXML(value));
+export function xmlDecode(sel: string): string {
+  return entities.decodeXML(sel);
 }
 
-export function xmlDecode(sels: texty.Selection[]): texty.Selection[] {
-  return process(sels, value => entities.decodeXML(value));
+export function base64Encode(sel: string): string {
+  return new Buffer(sel).toString('base64');
 }
 
-export function base64Encode(sels: texty.Selection[]): texty.Selection[] {
-  return process(sels, value => new Buffer(value).toString('base64'));
+export function base64Decode(sel: string): string {
+  return new Buffer(sel, 'base64').toString('utf8');
 }
 
-export function base64Decode(sels: texty.Selection[]): texty.Selection[] {
-  return process(sels, value => new Buffer(value, 'base64').toString('utf8'));
-}
-
-export function jwtDecode(sels: texty.Selection[]): texty.Selection[] {
-  return process(sels, value => JSON.stringify(jwtDecoder(value), undefined, '  '));
+export function jwtDecode(sel: string): string {
+  return JSON.stringify(jwtDecoder(sel), undefined, '  ');
 }

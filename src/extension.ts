@@ -6,61 +6,81 @@ import * as picsum from './modules/picsum';
 import * as cases from './modules/cases';
 import * as crypto from './modules/crypto';
 import * as encode from './modules/encode';
-import * as texty from './types';
+import * as lines from './modules/lines';
+
+let context: vscode.ExtensionContext;
 
 const globalCommands: { [key: string]: () => any } = {
   'createIssue': () => utils.openUrl('https://github.com/datasert/vscode-texty/issues/new'),
 };
 
-const insertTextCommands: { [key: string]: (sels: texty.Selection[]) => texty.Selection[] | Promise<texty.Selection[]> } = {
-  'insertUuid': uuid.insertUuid,
-  'insertUuidKey': sels => uuid.insertUuid(sels, {prefix: '{', suffix: '}' }),
-  'insertLoremIpsumParagraph': sels => lorem.insertLoremIpsum(sels, { type: 'paragraph', count: 1 }),
-  'insertLoremIpsumSentence': sels => lorem.insertLoremIpsum(sels, { type: 'sentence', count: 1 }),
+const insertTextCommands: { [key: string]: () => undefined | string | Promise<string | undefined> } = {
+  'insertUuid': uuid.generateUuid,
+  'insertUuidKey': uuid.generateUuidKey,
+  'insertUuidNoDashes': uuid.generateUuidNoDashes,
+  'insertLoremIpsumParagraph': () => lorem.generateLorem({ type: 'paragraph', count: 10 }),
+  'insertLoremIpsumSentence': () => lorem.generateLorem({ type: 'sentence', count: 10 }),
+  'insertLoremPicsum': async () => picsum.generatePicsum(await picsum.getPicsumOptions(context)),
+  'insertLoremPicsumWithOptions': async () => picsum.generatePicsum(await picsum.getPicsumOptions(context, true)),
 };
 
-const replaceTextCommands: { [key: string]: (sels: texty.Selection[]) => undefined | texty.Selection[] | Promise<texty.Selection[] | undefined>} = {
-  'convertToCapitalCase': sels => cases.convertTo(sels, {type: cases.Type.CapitalCase}),
-  'convertToLowerCase': sels => cases.convertTo(sels, {type: cases.Type.LowerCase}),
-  'convertToUpperCase': sels => cases.convertTo(sels, {type: cases.Type.UpperCase}),
-  'convertToCamelCase': sels => cases.convertTo(sels, {type: cases.Type.CamelCase}),
-  'convertToPascalCase': sels => cases.convertTo(sels, {type: cases.Type.PascalCase}),
-  'convertToSnakeCase': sels => cases.convertTo(sels, {type: cases.Type.SnakeCase}),
-  'convertToKebabCase': sels => cases.convertTo(sels, {type: cases.Type.KebabCase}),
-  'convertToConstantCase': sels => cases.convertTo(sels, {type: cases.Type.ConstantCase}),
-  'convertToDotCase': sels => cases.convertTo(sels, {type: cases.Type.DotCase}),
-  'convertToPathCase': sels => cases.convertTo(sels, {type: cases.Type.PathCase}),
-  'convertToSpaceCase': sels => cases.convertTo(sels, {type: cases.Type.SpaceCase}),
-  'convertToSentenceCase': sels => cases.convertTo(sels, {type: cases.Type.SentenceCase}),
-  'viewMd5Hash': sels => crypto.viewMd5Hash(sels),
-  'encryptText': sels => crypto.encryptText(sels),
-  'decryptText': sels => crypto.decryptText(sels),
-  'urlEncode': sels => encode.urlEncode(sels),
-  'urlDecode': sels => encode.urlDecode(sels),
-  'htmlEncode': sels => encode.htmlEncode(sels),
-  'htmlDecode': sels => encode.htmlDecode(sels),
-  'xmlEncode': sels => encode.xmlEncode(sels),
-  'xmlDecode': sels => encode.xmlDecode(sels),
-  'base64Encode': sels => encode.base64Encode(sels),
-  'base64Decode': sels => encode.base64Decode(sels),
-  'jwtDecode': sels => encode.jwtDecode(sels),
+const processTextCommands: { [key: string]: (sels: string) => undefined | string | Promise<string | undefined>} = {
+  'convertToLowerCase': cases.convertToLowerCase,
+  'convertToUpperCase': cases.convertToUpperCase,
+  'convertToCamelCase': cases.convertToCamelCase,
+  'convertToPascalCase': cases.convertToPascalCase,
+  'convertToSnakeCase': cases.convertToSnakeCase,
+  'convertToKebabCase': cases.convertToKebabCase,
+  'convertToConstantCase': cases.convertToConstantCase,
+  'convertToDotCase': cases.convertToDotCase,
+  'convertToPathCase': cases.convertToPathCase,
+  'convertToSpaceCase': cases.convertToSpaceCase,
+  'convertToCapitalCase': cases.convertToCapitalCase,
+  'convertToSentenceCase': cases.convertToSentenceCase,
+  'viewMd5Hash': crypto.viewMd5Hash,
+  'encryptText': crypto.encryptTextWithPrompt,
+  'decryptText': crypto.decryptTextWithPrompt,
+  'urlEncode': encode.urlEncode,
+  'urlDecode': encode.urlEncode,
+  'htmlEncode': encode.htmlEncode,
+  'htmlDecode': encode.htmlDecode,
+  'xmlEncode': encode.xmlEncode,
+  'xmlDecode': encode.xmlDecode,
+  'base64Encode': encode.base64Encode,
+  'base64Decode': encode.base64Decode,
+  'jwtDecode': encode.jwtDecode,
+  'sortLines': lines.sortLines,
+  'sortLinesReverse': lines.sortLinesReverse,
+  'sortLinesNatural': lines.sortLinesNatural,
+  'sortLinesNaturalReverse': lines.sortLinesNaturalReverse,
+  'sortLinesIgnoreCase': lines.sortLinesIgnoreCase,
+  'sortLinesIgnoreCaseReverse': lines.sortLinesIgnoreCaseReverse,
+  'sortLinesByLength': lines.sortLinesByLength,
+  'sortLinesByLengthReverse': lines.sortLinesByLengthReverse,
+  'sortLinesShuffle': lines.sortLinesShuffle,
+  'removeDuplicates': lines.removeDuplicates,
+  'removeDuplicatesIgnoreCase': lines.removeDuplicatesIgnoreCase,
+  'removeBlankLines': lines.removeBlankLines,
+  'splitByLength120': lines.splitLinesByLength120,
+  'splitByLength80': lines.splitLinesByLength80,
+  'splitByLength': lines.splitLinesByLengthPrompt,
+  'splitBySentences': lines.splitBySentences,
 };
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate(extnContext: vscode.ExtensionContext) {
+  context = extnContext;
+
   for (const command of Object.keys(globalCommands)) {
-    utils.registerInsertTextCommand(context, `texty.${command}`, globalCommands[command]);
+    utils.registerCommand(context, command, globalCommands[command]);
   }
 
   for (const command of Object.keys(insertTextCommands)) {
-    utils.registerInsertTextCommand(context, `texty.${command}`, insertTextCommands[command]);
+    utils.registerInsertTextCommand(context, command, insertTextCommands[command]);
   }
 
-  for (const command of Object.keys(replaceTextCommands)) {
-    utils.registerReplaceTextCommand(context, `texty.${command}`, replaceTextCommands[command]);
+  for (const command of Object.keys(processTextCommands)) {
+    utils.registerProcessTextCommand(context, command, processTextCommands[command]);
   }
-
-  utils.registerInsertTextCommand(context, `texty.insertLoremPicsum`, async sels => picsum.insertPicsum(sels, await picsum.getPicsumOptions(context)));
-  utils.registerInsertTextCommand(context, `texty.insertLoremPicsumWithOptions`, async sels => picsum.insertPicsum(sels, await picsum.getPicsumOptions(context, true)));
 }
 
 export function deactivate() { }

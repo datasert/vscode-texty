@@ -1,5 +1,4 @@
 import { LoremIpsum } from "lorem-ipsum";
-import * as texty from '../types';
 
 const lorem = new LoremIpsum({
   sentencesPerParagraph: {
@@ -29,9 +28,6 @@ function generate(type: string, count: number) {
   return lorem.generateParagraphs(count);
 }
 
-export function insertLoremIpsum(sels: texty.Selection[], options = new Options()): texty.Selection[] {
-  return sels.map(sel => {
-    sel.newContent = generate(options.type, options.count);
-    return sel;
-  });
+export function generateLorem(options = new Options()): string {
+  return generate(options.type, options.count);
 }
