@@ -91,3 +91,9 @@ export function removeDuplicatesIgnoreCase(content: string) {
 export function removeBlankLines(content: string) {
     return process(content, lines => lines.filter(line => line.trim()));
 }
+
+export function removeBlankLinesSurplus(content: string) {
+    const EOL = content.match(/\r\n/gm)?"\r\n":"\n";
+    const regExp = new RegExp("("+EOL+"){3,}", "gm");
+    return content.replace(regExp, EOL+EOL);
+}

@@ -12,14 +12,19 @@ Texty has multiple modules, each of them with multiple utilities. Usually all co
 
 Insert
 --
-| Command                          | Description                                                                                |
-| -------------------------------- | ------------------------------------------------------------------------------------------ |
-| Insert Uuid                      | Generates a uuid and inserts into the selections. For ex.,                                 |
-| Insert Uuid Key                  | Generates a uuid with {} guards and inserts into the selections                            |
-| Insert Lorem Ipsum Paragraph     | Inserts one paragraph of lorem ipsum text into selections                                  |
-| Insert Lorem Ipsum Sentence      | Inserts one sentense of lorem ipsum text into selections                                   |
-| Insert Lorem Picsum              | Inserts image tag with image from Lorem Picsum with previosly specified or default options. Checkout [Picsum](https://picsum.photos/). |
-| Insert Lorem Picsum with Options | Shows options dialog box and then inserts random image based on specified options          |
+| Command                           | Description                                                                                                                            |
+| --------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Insert Number Series from 0       | Inserts number series starting from 0                                                                                                  |
+| Insert Number Series from 1       | Inserts number series starting from 1                                                                                                  |
+| Insert Number Series with Options | Prompts user to enter various options and inserts series according to specified options.                                               |
+| Insert Uuid                       | Inserts uuid into the selections. For ex., ece1953e-8bca-46d8-a701-56c6fe1c1aaa                                                        |
+| Insert Uuid (No Dashes)           | Inserts uuid without dashes into selections. For ex., ece1953e8bca46d8a70156c6fe1c1aaa                                                 |
+| Insert Uuid Key                   | Inserts uuid with {} and inserts into the selections. For ex., {ece1953e-8bca-46d8-a701-56c6fe1c1aaa}                                  |
+| Insert Short Id                   | Inserts short ids. For ex.,                                                                                                            |
+| Insert Lorem Ipsum Sentence       | Inserts one sentense of lorem ipsum text into selections                                                                               |
+| Insert Lorem Ipsum Paragraph      | Inserts one paragraph of lorem ipsum text into selections                                                                              |
+| Insert Lorem Picsum               | Inserts image tag with image from Lorem Picsum with previosly specified or default options. Checkout [Picsum](https://picsum.photos/). |
+| Insert Lorem Picsum with Options  | Shows options dialog box and then inserts random image based on specified options                                                      |
 
 Convert Case
 --
@@ -57,6 +62,7 @@ Remove
 | Command                              | Description                                           |
 | ------------------------------------ | ----------------------------------------------------- |
 | Remove Blank Lines                   | Removes all blank lines (lines with only whitespaces) |
+| Remove Blank Lines (Surplus)         | Removes all blank lines if there are more than one    |
 | Remove Duplicate Lines               | Removes all duplicate lines                           |
 | Remove Duplicate Lines (Ignore Case) | Removes all duplicate lines ignoring case             |
 
@@ -90,6 +96,12 @@ Encryption
 | View MD5 Hash | Shows the Md5 hash of selections or all text                                            |
 | Encrypt Text  | Prompts for password and replaces each selections with encrypted base64 encoded strings |
 | Decrypt Text  | Prompts for password and replaces each selections with decrypted base64 encoded strings |
+
+Translate
+--
+| Command                | Description                                        |
+| ---------------------- | -------------------------------------------------- |
+| Translate using Google | Opens the Google Translate url using selected text |
 
 Credits
 ==

@@ -1,8 +1,9 @@
 import * as vscode from 'vscode';
 import * as texty from './types';
 
-export function openUrl(url: string) {
+export function openUrl(url: string): undefined {
   vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
+  return undefined;
 }
 
 export function getAllSelection(editor: vscode.TextEditor): vscode.Selection {
@@ -69,44 +70,59 @@ export function registerCommand(context: vscode.ExtensionContext, id: string, ha
   context.subscriptions.push(vscode.commands.registerCommand(`texty.${id}`, handler));
 }
 
-export function registerTextCommand(context: vscode.ExtensionContext, id: string, defaultsToFull: boolean = false,
-    includeContent: boolean = false, selectionIsMust: boolean, handler: (sel: string) => (undefined | string | Promise<string | undefined>)) {
+export type TextHandler = (sel: string | string[]) => string | string[] | Promise<string | string[] | undefined> | undefined;
+export function registerTextCommand(context: vscode.ExtensionContext, id: string, allSelections: boolean = false, defaultsToFull: boolean = false,
+    includeContent: boolean = false, selectionIsMust: boolean, handler: TextHandler) {
   context.subscriptions.push(vscode.commands.registerTextEditorCommand(`texty.${id}`, async (editor, edit) => {
     const sels = getSelections(editor, defaultsToFull, includeContent);
-    const updates = await Promise.all(sels.map(async sel => {
-      if (selectionIsMust) {
-        if (sel.content) {
-          sel.newContent = await handler(sel.content);
+    let updates: texty.Selection[] | undefined = [];
+    if (!allSelections) {
+      updates = await Promise.all(sels.map(async sel => {
+        if (selectionIsMust) {
+          if (sel.content) {
+            sel.newContent = await handler(sel.content) as string;
+          }
+        } else {
+          sel.newContent = await handler(sel.content || '') as string;
         }
-      } else {
-        sel.newContent = await handler(sel.content || '');
+  
+        return sel;
+      }));
+    } else {
+      const values = sels.map(sel => sel.content || '');
+      const updatedValues = await handler(values) as string[]; 
+      for (let index = 0; index < sels.length; index++) {
+        const sel = sels[index];
+        sel.newContent = updatedValues[index];
       }
-
-      return sel;
-    }));
-
-    if (!updates) {
-      return;
+      updates = sels;
     }
 
-    editor.edit((editBuilder) => {
-      for (const update of updates) {
-        if (update && update.newContent) {
-          editBuilder.replace(update.selection, update.newContent);
+    if (updates) {
+      editor.edit((editBuilder) => {
+        for (const update of updates || []) {
+          if (update && update.newContent) {
+            editBuilder.replace(update.selection, update.newContent);
+          }
         }
-      }
-    });
+      });
+    }
   }));
 }
 
 export function registerInsertTextCommand(context: vscode.ExtensionContext, id: string,
   handler: (sels: string) => (undefined | string | Promise<string | undefined>)) {
-    registerTextCommand(context, id, false, false, false, handler);
+    registerTextCommand(context, id, false, false, false, false, handler as TextHandler);
 }
 
 export function registerProcessTextCommand(context: vscode.ExtensionContext, id: string,
   handler: (sel: string) => (undefined | string | Promise<string | undefined>)) {
-    registerTextCommand(context, id, true, true, true, handler);
+    registerTextCommand(context, id, false, true, true, true, handler as TextHandler);
+}
+
+export function registerProcessTextsCommand(context: vscode.ExtensionContext, id: string,
+  handler: (sel: string[]) => (undefined | string[] | Promise<string[] | undefined>)) {
+    registerTextCommand(context, id, true, true, true, true, handler as TextHandler);
 }
 
 export function replaceAll(str: string, search: string, replacement: string) {
@@ -157,4 +173,81 @@ export async function getInputNumber(prompt: string): Promise<number | undefined
   }
 
   return parseInt(resp);
+}
+
+export type GetOptionsRequest = {
+  settingsKey: string;
+  settingsDefault: string;
+  showPrompt: boolean;
+  message: string;
+  placeHolder: string;
+  properties: string[];
+};
+
+function convertToValue(value: string, type: string) {
+  if (!value || !value.trim()) {
+    return '';
+  }
+
+  if (type === 'int') {
+    return parseInt(value);
+  }
+
+  if (type === 'float') {
+    return parseFloat(value);
+  }
+
+  if (type === 'boolean') {
+    return value.trim().toLowerCase() === 'true';
+  }
+
+  return value.trim().toString();
+}
+
+export async function getOptions(context: vscode.ExtensionContext, req: GetOptionsRequest) {
+    let value = context.globalState.get<string>(req.settingsKey, req.settingsDefault);
+  
+    if (req.showPrompt) {
+      const resp = await vscode.window.showInputBox({
+        value,
+        prompt: req.message,
+        placeHolder: req.placeHolder,
+      });
+  
+      if (!resp) {
+        return undefined;
+      }
+  
+      context.globalState.update(req.settingsKey, resp);
+      value = resp;
+    }
+  
+    const options: any = {};
+    const props: any = {};
+
+    req.properties.forEach(prop => {
+      if (prop.indexOf(':') > 0) {
+        const [name, type] = prop.split(':');
+        props[name] = type;
+      } else {
+        props[prop] = 'string';
+      }
+    });
+
+    value.split(',').forEach(pair => {
+      try {
+        const parts = pair.split('=');
+        const key = parts[0].trim();
+        const value = parts[1].trim();
+        
+        if (props[key]) {
+          options[key] = convertToValue(value, props[key]);
+        }
+      } catch (error) {
+        console.error(error);
+        // ignore
+      }
+    });
+  
+    return options;
 }

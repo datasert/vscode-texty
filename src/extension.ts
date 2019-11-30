@@ -7,6 +7,7 @@ import * as cases from './modules/cases';
 import * as crypto from './modules/crypto';
 import * as encode from './modules/encode';
 import * as lines from './modules/lines';
+import * as series from './modules/series';
 
 let context: vscode.ExtensionContext;
 
@@ -15,6 +16,7 @@ const globalCommands: { [key: string]: () => any } = {
 };
 
 const insertTextCommands: { [key: string]: () => undefined | string | Promise<string | undefined> } = {
+  'insertShortId': uuid.generateShortId,
   'insertUuid': uuid.generateUuid,
   'insertUuidKey': uuid.generateUuidKey,
   'insertUuidNoDashes': uuid.generateUuidNoDashes,
@@ -61,10 +63,18 @@ const processTextCommands: { [key: string]: (sels: string) => undefined | string
   'removeDuplicates': lines.removeDuplicates,
   'removeDuplicatesIgnoreCase': lines.removeDuplicatesIgnoreCase,
   'removeBlankLines': lines.removeBlankLines,
+  'removeBlankLinesSurplus': lines.removeBlankLinesSurplus,
   'splitByLength120': lines.splitLinesByLength120,
   'splitByLength80': lines.splitLinesByLength80,
   'splitByLength': lines.splitLinesByLengthPrompt,
   'splitBySentences': lines.splitBySentences,
+  'translateUsingGoogle': line => utils.openUrl('https://translate.google.com/?q=' + line),
+};
+
+const processTextsCommands: { [key: string]: (sels: string[]) => undefined | string[] | Promise<string[] | undefined>} = {
+  'insertNumberSeriesFrom0': sels => series.generateFrom0(sels.length),
+  'insertNumberSeriesFrom1': sels => series.generateFrom1(sels.length),
+  'insertNumberSeriesWithOptions': async sels => series.generate(sels.length, await series.getNumberSeriesOptions(context)),
 };
 
 export function activate(extnContext: vscode.ExtensionContext) {
@@ -80,6 +90,10 @@ export function activate(extnContext: vscode.ExtensionContext) {
 
   for (const command of Object.keys(processTextCommands)) {
     utils.registerProcessTextCommand(context, command, processTextCommands[command]);
+  }
+
+  for (const command of Object.keys(processTextsCommands)) {
+    utils.registerProcessTextsCommand(context, command, processTextsCommands[command]);
   }
 }
 

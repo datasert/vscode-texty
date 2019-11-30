@@ -3,7 +3,7 @@
  "displayName": "Texty",
  "description": "Sweet set of text utilities",
  "publisher": "datasert",
- "version": "0.0.6",
+ "version": "0.0.7",
  "repository": {
   "url": "https://github.com/datasert/vscode-texty"
  },
@@ -21,13 +21,18 @@
  ],
  "preview": true,
  "activationEvents": [
+  "onCommand:texty.translateUsingGoogle",
   "onCommand:texty.insertUuid",
   "onCommand:texty.insertUuidKey",
   "onCommand:texty.insertUuidNoDashes",
+  "onCommand:texty.insertShortId",
   "onCommand:texty.insertLoremIpsumParagraph",
   "onCommand:texty.insertLoremIpsumSentence",
   "onCommand:texty.insertLoremPicsum",
   "onCommand:texty.insertLoremPicsumWithOptions",
+  "onCommand:texty.insertNumberSeriesFrom0",
+  "onCommand:texty.insertNumberSeriesFrom1",
+  "onCommand:texty.insertNumberSeriesWithOptions",
   "onCommand:texty.convertToLowerCase",
   "onCommand:texty.convertToUpperCase",
   "onCommand:texty.convertToCamelCase",
@@ -63,6 +68,7 @@
   "onCommand:texty.removeDuplicates",
   "onCommand:texty.removeDuplicatesIgnoreCase",
   "onCommand:texty.removeBlankLines",
+  "onCommand:texty.removeBlankLinesSurplus",
   "onCommand:texty.splitBySentences",
   "onCommand:texty.splitByLength",
   "onCommand:texty.splitByLength120",
@@ -72,6 +78,26 @@
  "main": "./out/extension.js",
  "contributes": {
   "commands": [
+   {
+    "category": "Texty",
+    "command": "texty.translateUsingGoogle",
+    "title": "Translate using Google"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertShortId",
+    "title": "Insert Short Id"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertShortId",
+    "title": "Insert Short Id"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertUuid",
+    "title": "Insert Uuid"
+   },
    {
     "category": "Texty",
     "command": "texty.insertUuid",
@@ -106,6 +132,21 @@
     "category": "Texty",
     "command": "texty.insertLoremPicsumWithOptions",
     "title": "Insert Lorem Picsum Image Tags with Options"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertNumberSeriesFrom0",
+    "title": "Insert Number Series from 0"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertNumberSeriesFrom1",
+    "title": "Insert Number Series from 1"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertNumberSeriesWithOptions",
+    "title": "Insert Number Series with Options"
    },
    {
     "category": "Texty",
@@ -289,6 +330,11 @@
    },
    {
     "category": "Texty",
+    "command": "texty.removeBlankLinesSurplus",
+    "title": "Remove Blank Lines (Surplus)"
+   },
+   {
+    "category": "Texty",
     "command": "texty.splitBySentences",
     "title": "Split by Sentences"
    },
@@ -345,11 +391,14 @@
   "vscode-test": "^1.2.2"
  },
  "dependencies": {
+  "@types/lodash.padstart": "^4.6.6",
+  "@types/uniqid": "^4.1.3",
   "entities": "^2.0.0",
   "jwt-decode": "^2.2.0",
   "lodash.camelcase": "^4.3.0",
   "lodash.capitalize": "^4.2.1",
   "lodash.kebabcase": "^4.1.1",
+  "lodash.padstart": "^4.6.1",
   "lodash.replace": "^4.1.4",
   "lodash.snakecase": "^4.1.1",
   "lodash.tolower": "^4.1.2",
@@ -357,6 +406,7 @@
   "lodash.upperfirst": "^4.3.1",
   "lorem-ipsum": "^2.0.3",
   "sjcl": "^1.0.8",
+  "uniqid": "^5.2.0",
   "uuid": "^3.3.3"
  }
 }
