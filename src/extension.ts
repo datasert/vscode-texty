@@ -80,6 +80,10 @@ const processTextCommands: { [key: string]: (sels: string) => undefined | string
   'filterLinesNotContainsString': async sels => lines.filterLinesNotContainsString(sels, await lines.getInputSearchString()),
   'filterLinesContainsRegex': async sels => lines.filterLinesContainsRegex(sels, await lines.getInputSearchRegex()),
   'filterLinesNotContainsRegex': async sels => lines.filterLinesNotContainsRegex(sels, await lines.getInputSearchRegex()),
+  'joinLinesForInClause': lines.joinLinesForInClause,
+  'joinLinesToCsv': lines.joinLinesForInClause,
+  'joinLinesWithSpace': lines.joinLinesWithSpace,
+  'joinLinesWithOptions': async content => lines.joinLines(content, await lines.getJoinLinesOptions(true)),
 };
 
 const processTextNewEditorCommands: { [key: string]: (sels: string) => undefined | string | Promise<string | undefined>} = {
@@ -92,9 +96,9 @@ const processTextNewEditorCommands: { [key: string]: (sels: string) => undefined
 const processTextsCommands: { [key: string]: (sels: string[]) => undefined | string[] | Promise<string[] | undefined>} = {
   'insertNumberSeriesFrom0': sels => numberSeries.generateFrom0(sels.length),
   'insertNumberSeriesFrom1': sels => numberSeries.generateFrom1(sels.length),
-  'insertNumberSeriesWithOptions': async sels => numberSeries.generate(sels.length, await numberSeries.getOptions(context)),
-  'insertDateSeriesWithOptions': async sels => numberSeries.generate(sels.length, await numberSeries.getOptions(context)),
-  'convertDateTime': async sels => datetime.convertDateTime(sels, await datetime.getConvertTimeOptions(context)),
+  'insertNumberSeriesWithOptions': async sels => numberSeries.generate(sels.length, await numberSeries.getOptions()),
+  'insertDateSeriesWithOptions': async sels => numberSeries.generate(sels.length, await numberSeries.getOptions()),
+  'convertDateTime': async sels => datetime.convertDateTime(sels, await datetime.getConvertTimeOptions()),
   'convertDateTimeToRelative': async sels => datetime.convertDateTimeToRelative(sels),
 };
 
@@ -103,23 +107,23 @@ export function activate(extnContext: vscode.ExtensionContext) {
   utils.setContext(context);
 
   for (const command of Object.keys(globalCommands)) {
-    utils.registerCommand(context, command, globalCommands[command]);
+    utils.registerCommand(command, globalCommands[command]);
   }
 
   for (const command of Object.keys(insertTextCommands)) {
-    utils.registerInsertTextCommand(context, command, insertTextCommands[command]);
+    utils.registerInsertTextCommand(command, insertTextCommands[command]);
   }
 
   for (const command of Object.keys(processTextCommands)) {
-    utils.registerProcessTextCommand(context, command, processTextCommands[command]);
+    utils.registerProcessTextCommand(command, processTextCommands[command]);
   }
 
   for (const command of Object.keys(processTextNewEditorCommands)) {
-    utils.registerProcessTextNewEditorCommand(context, command, processTextNewEditorCommands[command]);
+    utils.registerProcessTextNewEditorCommand(command, processTextNewEditorCommands[command]);
   }
 
   for (const command of Object.keys(processTextsCommands)) {
-    utils.registerProcessTextsCommand(context, command, processTextsCommands[command]);
+    utils.registerProcessTextsCommand(command, processTextsCommands[command]);
   }
 }
 

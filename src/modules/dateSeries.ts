@@ -49,8 +49,8 @@ export function generate(count: number, options?: Options) {
     return values;
 }
 
-export async function getOptions(context: vscode.ExtensionContext): Promise<Options> {
-    const options = await utils.getOptions(context, {
+export async function getOptions(): Promise<Options> {
+    const options = await utils.getOptions({
         placeHolder: 'Specify options with comma separated key=value pairs',
         message: 'Enter Number Series Options. Defaults to [start=0, step=1, format=#, count=, padSize=0, padString=0]. Where ' 
             + 'start=Number to start the series with. It can be any number; '
@@ -59,9 +59,10 @@ export async function getOptions(context: vscode.ExtensionContext): Promise<Opti
             + 'count=If you want series to stop at some point, you can set max. If maxed out, then series will start over; '
             + 'padSize=If you want to pad the series, specify the size of the padding; '
             + 'padString=Padding string to use; ',
-        settingsKey: 'series.numberSeries',
+        settingsKey: 'series.numberSeriesOptions',
         settingsDefault: 'start=0, step=1, format=#, count=, padSize=0, padString=0',
         showPrompt: true,
+        trimValues: true,
         properties: [
             'start:float',
             'step:float',

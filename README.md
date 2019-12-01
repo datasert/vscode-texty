@@ -113,6 +113,15 @@ Split
 | Split by Length (80 chars)  | Splits the lines by max 80 chars                                   |
 | Split by Length (120 chars) | Splits the lines by max 120 chars                                  |
 
+Join
+--
+| Command                  | Description                                                      |
+| ------------------------ | ---------------------------------------------------------------- |
+| Join lines for In clause | Joins the lines to SQL in clause format. For ex., `'foo', 'bar'` |
+| Join lines to csv        | Joins the lines to csv                                           |
+| Join lines with space    | Joins the lines with space in between                            |
+| Join lines with options  | Prompts user for options and joins the lines with that options   |
+
 Encoding/Decoding
 --
 | Command        | Description              |

@@ -93,9 +93,23 @@ export function removeBlankLines(content: string) {
 }
 
 export function removeBlankLinesSurplus(content: string) {
-    const EOL = content.match(/\r\n/gm)?"\r\n":"\n";
-    const regExp = new RegExp("("+EOL+"){3,}", "gm");
-    return content.replace(regExp, EOL+EOL);
+    return process(content, lines => {
+        const newLines: string[] = [];
+        let prevBlankLine = false;
+        for (const line of lines) {
+            if (line.trim() === '') {
+                if (!prevBlankLine) {
+                    newLines.push(line);
+                    prevBlankLine = true;
+                }
+            } else {
+                newLines.push(line);
+                prevBlankLine = false;
+            }
+        }
+
+        return newLines;
+    });
 }
 
 export function filterLinesContainsString(content: string, searchString: string | undefined) {
@@ -138,4 +152,50 @@ export async function getInputSearchString() {
 
 export async function getInputSearchRegex() {
     return utils.getInputString('Enter the Search Regex');
+}
+
+export function joinLinesForInClause(content: string) {
+    return joinLines(content, {start: '\'', between: '\', \'', end: '\''});
+}
+
+export function joinLinesWithSpace(content: string) {
+    return joinLines(content, {between: ' '});
+}
+
+export function joinLinesToCsv(content: string) {
+    return joinLines(content, {between: ', '});
+}
+
+export type JoinLineOptions = {
+    start?: string;
+    between?: string;
+    end?: string;
+};
+export function joinLines(content: string, options: JoinLineOptions) {
+    if (!options) {
+        return undefined;
+    }
+
+    return process(content, lines => [(options.start || '') + lines.filter(line => line.trim()).join(options.between || '') + (options.end || '')]);
+}
+
+export async function getJoinLinesOptions(prompt: boolean): Promise<JoinLineOptions> {
+    const options = await utils.getOptions({
+        placeHolder: 'Specify options with comma separated key=value pairs',
+        message: 'Enter Join Lines Options. Defaults to [start=, between= , end=]. Where ' 
+            + 'start=String to prefix the joined line; '
+            + 'between=String to join all lines with; '
+            + 'end=String to suffix the joined line; ',
+        settingsKey: 'lines.joinLinesOptions',
+        settingsDefault: 'start=, between= , end=',
+        showPrompt: prompt,
+        trimValues: false,
+        properties: [
+            'start',
+            'between',
+            'end',
+        ],
+    });
+
+    return options as JoinLineOptions;
 }

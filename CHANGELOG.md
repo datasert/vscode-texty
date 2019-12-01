@@ -1,6 +1,13 @@
 # Change Log
 All notable changes to the "texty" extension will be documented in this file.
 
+## [0.0.9] - 2019-12-01
+### Added
+- Add `Join lines with space` Command
+- Add `Join lines to csv` Command
+- Add `Join lines for In clause` Command
+- Add `Join lines (with options)` Command
+
 ## [0.0.8] - 2019-11-30
 ### Added
 - Add `Open file in System default app` Command

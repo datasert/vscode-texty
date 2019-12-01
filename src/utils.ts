@@ -124,7 +124,7 @@ function getSelections(editor: vscode.TextEditor, defaultsToFull: boolean = fals
 	return newSels;
 }
 
-export function registerCommand(context: vscode.ExtensionContext, id: string, handler: () => void) {
+export function registerCommand(id: string, handler: () => void) {
   context.subscriptions.push(vscode.commands.registerCommand(`texty.${id}`, handler));
 }
 
@@ -137,7 +137,7 @@ type TextCommandOptions = {
   resultsIntoNewEditor?: boolean;
   handler: TextHandler;
 }
-export function registerTextCommand(context: vscode.ExtensionContext, id: string, options: TextCommandOptions) {
+export function registerTextCommand(id: string, options: TextCommandOptions) {
   context.subscriptions.push(vscode.commands.registerTextEditorCommand(`texty.${id}`, async (editor, edit) => {
     const sels = getSelections(editor, options.defaultsToFull, options.includeContent);
     let updates: texty.Selection[] | undefined = [];
@@ -180,14 +180,14 @@ export function registerTextCommand(context: vscode.ExtensionContext, id: string
   }));
 }
 
-export function registerInsertTextCommand(context: vscode.ExtensionContext, id: string,
+export function registerInsertTextCommand(id: string,
   handler: (sels: string) => (undefined | string | Promise<string | undefined>)) {
-    registerTextCommand(context, id, {handler: handler as TextHandler});
+    registerTextCommand(id, {handler: handler as TextHandler});
 }
 
-export function registerProcessTextCommand(context: vscode.ExtensionContext, id: string,
+export function registerProcessTextCommand(id: string,
   handler: (sel: string) => (undefined | string | Promise<string | undefined>)) {
-    registerTextCommand(context, id, {
+    registerTextCommand(id, {
       includeContent: true, 
       defaultsToFull: true, 
       selectionIsMust: true, 
@@ -195,9 +195,9 @@ export function registerProcessTextCommand(context: vscode.ExtensionContext, id:
     });
 }
 
-export function registerProcessTextNewEditorCommand(context: vscode.ExtensionContext, id: string,
+export function registerProcessTextNewEditorCommand(id: string,
   handler: (sel: string) => (undefined | string | Promise<string | undefined>)) {
-    registerTextCommand(context, id, {
+    registerTextCommand(id, {
       includeContent: true, 
       defaultsToFull: true, 
       selectionIsMust: true, 
@@ -206,9 +206,9 @@ export function registerProcessTextNewEditorCommand(context: vscode.ExtensionCon
     });
 }
 
-export function registerProcessTextsCommand(context: vscode.ExtensionContext, id: string,
+export function registerProcessTextsCommand(id: string,
   handler: (sel: string[]) => (undefined | string[] | Promise<string[] | undefined>)) {
-    registerTextCommand(context, id, {
+    registerTextCommand(id, {
       allSelections: true,
       includeContent: true,
       defaultsToFull: true,
@@ -286,29 +286,30 @@ export type GetOptionsRequest = {
   message: string;
   placeHolder: string;
   properties: string[];
+  trimValues: boolean;
 };
 
-function convertToValue(value: string, type: string) {
-  if (!value || !value.trim()) {
-    return '';
+function convertToValue(value: string, type: string, trim: boolean) {
+  if (!value) {
+    return value;
   }
 
   if (type === 'int') {
-    return parseInt(value);
+    return parseInt(value.trim());
   }
 
   if (type === 'float') {
-    return parseFloat(value);
+    return parseFloat(value.trim());
   }
 
   if (type === 'boolean') {
     return value.trim().toLowerCase() === 'true';
   }
 
-  return value.trim().toString();
+  return trim ? value.trim() : value;
 }
 
-export async function getOptions(context: vscode.ExtensionContext, req: GetOptionsRequest) {
+export async function getOptions(req: GetOptionsRequest) {
     let value = context.globalState.get<string>(req.settingsKey, req.settingsDefault);
   
     if (req.showPrompt) {
@@ -342,10 +343,10 @@ export async function getOptions(context: vscode.ExtensionContext, req: GetOptio
       try {
         const parts = pair.split('=');
         const key = parts[0].trim();
-        const value = parts[1].trim();
+        const value = parts[1];
         
         if (props[key]) {
-          options[key] = convertToValue(value, props[key]);
+          options[key] = convertToValue(value, props[key], options.trimValues);
         }
       } catch (error) {
         console.error(error);

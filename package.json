@@ -3,7 +3,7 @@
  "displayName": "Texty",
  "description": "Sweet set of text utilities",
  "publisher": "datasert",
- "version": "0.0.9",
+ "version": "0.0.10",
  "repository": {
   "url": "https://github.com/datasert/vscode-texty"
  },
@@ -19,7 +19,7 @@
   "encode/decode",
   "case change"
  ],
- "preview": true,
+ "preview": false,
  "activationEvents": [
   "onCommand:texty.filterLinesContainsString",
   "onCommand:texty.filterLinesNotContainsString",
@@ -77,6 +77,10 @@
   "onCommand:texty.sortLinesRandom",
   "onCommand:texty.sortLinesNatural",
   "onCommand:texty.sortLinesNaturalReverse",
+  "onCommand:texty.joinLinesWithOptions",
+  "onCommand:texty.joinLinesForInClause",
+  "onCommand:texty.joinLinesToCsv",
+  "onCommand:texty.joinLinesWithSpace",
   "onCommand:texty.removeDuplicates",
   "onCommand:texty.removeDuplicatesIgnoreCase",
   "onCommand:texty.removeBlankLines",
@@ -397,6 +401,26 @@
     "category": "Texty",
     "command": "texty.sortLinesNaturalReverse",
     "title": "Sort Lines (Natural Descending)"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.joinLinesForInClause",
+    "title": "Join lines for In clause"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.joinLinesToCsv",
+    "title": "Join lines to csv"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.joinLinesWithSpace",
+    "title": "Join lines with space"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.joinLinesWithOptions",
+    "title": "Join lines with options"
    },
    {
     "category": "Texty",

@@ -78,8 +78,8 @@ export function getDateIsoString() {
     return new Date().toISOString().substring(0, 10);
 }
 
-export async function getConvertTimeOptions(context: vscode.ExtensionContext): Promise<ConvertTimeOptions> {
-    const options = await utils.getOptions(context, {
+export async function getConvertTimeOptions(): Promise<ConvertTimeOptions> {
+    const options = await utils.getOptions({
         placeHolder: 'Specify options with comma separated key=value pairs',
         message: 'Enter Convert Time Options. Where ' 
             + 'fromTz=If date string doesnot have tz info embedded, you can specify this as timezone; '
@@ -95,6 +95,7 @@ export async function getConvertTimeOptions(context: vscode.ExtensionContext): P
             'toTz',
             'toFormat',
         ],
+        trimValues: true,
     });
 
     return options as ConvertTimeOptions;
