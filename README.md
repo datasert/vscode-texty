@@ -2,13 +2,26 @@ Overview
 ==
 Texty is a sweet set of Text related utilities that makes you power user.
 
-All Texty commands are prefixed with `Texty:` to make it clear and avoid confusion.
-
 If you have any issues or feature requests, please create an issue at https://github.com/datasert/vscode-texty/issues. You can also use `Texty: Create Issue` command to open this url.
+
+Install
+==
+To install this extension, follow these steps.
+
+* Open VS code and goto Extensions side bar
+* Search for `Texty`
+* Click on `Install` Button
+
+![Install](https://i.imgur.com/4n06Vp9.gif)
+
 
 Commands
 ==
-Texty has multiple modules, each of them with multiple utilities. Usually all commands within the module starts with same verb. For ex., `insert` or `Convert`.
+Texty has multiple modules, each of them with multiple utilities/commands.
+
+Usually all commands within the module starts with same verb. For ex., `insert` or `Convert`.
+
+Also all Texty commands are prefixed with `Texty:` to make it clear and avoid confusion. So to list all Texty commands, just enter `Texty: `.
 
 Open
 --
