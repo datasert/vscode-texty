@@ -97,3 +97,45 @@ export function removeBlankLinesSurplus(content: string) {
     const regExp = new RegExp("("+EOL+"){3,}", "gm");
     return content.replace(regExp, EOL+EOL);
 }
+
+export function filterLinesContainsString(content: string, searchString: string | undefined) {
+    if (!searchString) {
+        return undefined;
+    }
+
+    return process(content, lines => lines.filter(line => line.toLowerCase().indexOf(searchString) >= 0));
+}
+
+export function filterLinesNotContainsString(content: string, searchString: string | undefined) {
+    if (!searchString) {
+        return undefined;
+    }
+
+    return process(content, lines => lines.filter(line => line.toLowerCase().indexOf(searchString) < 0));
+}
+
+export function filterLinesContainsRegex(content: string, searchRegex: string | undefined) {
+    if (!searchRegex) {
+        return undefined;
+    }
+
+    const regex = new RegExp(searchRegex);
+    return process(content, lines => lines.filter(line => regex.test(line)));
+}
+
+export function filterLinesNotContainsRegex(content: string, searchRegex: string | undefined) {
+    if (!searchRegex) {
+        return undefined;
+    }
+
+    const regex = new RegExp(searchRegex);
+    return process(content, lines => lines.filter(line => !regex.test(line)));
+}
+
+export async function getInputSearchString() {
+    return utils.getInputString('Enter the Search String');
+}
+
+export async function getInputSearchRegex() {
+    return utils.getInputString('Enter the Search Regex');
+}

@@ -7,7 +7,9 @@ import * as cases from './modules/cases';
 import * as crypto from './modules/crypto';
 import * as encode from './modules/encode';
 import * as lines from './modules/lines';
-import * as series from './modules/series';
+import * as numberSeries from './modules/numberSeries';
+import * as datetime from './modules/datetime';
+import * as open from './modules/open';
 
 let context: vscode.ExtensionContext;
 
@@ -16,6 +18,8 @@ const globalCommands: { [key: string]: () => any } = {
 };
 
 const insertTextCommands: { [key: string]: () => undefined | string | Promise<string | undefined> } = {
+  'insertDateTimeIsoString': datetime.getDateTimeIsoString,
+  'insertDateIsoString': datetime.getDateIsoString,
   'insertShortId': uuid.generateShortId,
   'insertUuid': uuid.generateUuid,
   'insertUuidKey': uuid.generateUuidKey,
@@ -24,6 +28,9 @@ const insertTextCommands: { [key: string]: () => undefined | string | Promise<st
   'insertLoremIpsumSentence': () => lorem.generateLorem({ type: 'sentence', count: 10 }),
   'insertLoremPicsum': async () => picsum.generatePicsum(await picsum.getPicsumOptions(context)),
   'insertLoremPicsumWithOptions': async () => picsum.generatePicsum(await picsum.getPicsumOptions(context, true)),
+  'openFileInSystemDefaultApp': () => open.openFileInSystemDefaultApp(utils.getEditorFile()),
+  'openFileInBrowser': async () => open.openFileInBrowser(utils.getEditorFile(), await open.getPreferredBrowser(false)),
+  'openFileInBrowserPrompt': async () => open.openFileInBrowser(utils.getEditorFile(), await open.getPreferredBrowser(true)),
 };
 
 const processTextCommands: { [key: string]: (sels: string) => undefined | string | Promise<string | undefined>} = {
@@ -69,16 +76,31 @@ const processTextCommands: { [key: string]: (sels: string) => undefined | string
   'splitByLength': lines.splitLinesByLengthPrompt,
   'splitBySentences': lines.splitBySentences,
   'translateUsingGoogle': line => utils.openUrl('https://translate.google.com/?q=' + line),
+  'filterLinesContainsString': async sels => lines.filterLinesContainsString(sels, await lines.getInputSearchString()),
+  'filterLinesNotContainsString': async sels => lines.filterLinesNotContainsString(sels, await lines.getInputSearchString()),
+  'filterLinesContainsRegex': async sels => lines.filterLinesContainsRegex(sels, await lines.getInputSearchRegex()),
+  'filterLinesNotContainsRegex': async sels => lines.filterLinesNotContainsRegex(sels, await lines.getInputSearchRegex()),
+};
+
+const processTextNewEditorCommands: { [key: string]: (sels: string) => undefined | string | Promise<string | undefined>} = {
+  'filterLinesContainsStringNewEditor': async sels => lines.filterLinesContainsString(sels, await lines.getInputSearchString()),
+  'filterLinesNotContainsStringNewEditor': async sels => lines.filterLinesNotContainsString(sels, await lines.getInputSearchString()),
+  'filterLinesContainsRegexNewEditor': async sels => lines.filterLinesContainsRegex(sels, await lines.getInputSearchRegex()),
+  'filterLinesNotContainsRegexNewEditor': async sels => lines.filterLinesNotContainsRegex(sels, await lines.getInputSearchRegex()),
 };
 
 const processTextsCommands: { [key: string]: (sels: string[]) => undefined | string[] | Promise<string[] | undefined>} = {
-  'insertNumberSeriesFrom0': sels => series.generateFrom0(sels.length),
-  'insertNumberSeriesFrom1': sels => series.generateFrom1(sels.length),
-  'insertNumberSeriesWithOptions': async sels => series.generate(sels.length, await series.getNumberSeriesOptions(context)),
+  'insertNumberSeriesFrom0': sels => numberSeries.generateFrom0(sels.length),
+  'insertNumberSeriesFrom1': sels => numberSeries.generateFrom1(sels.length),
+  'insertNumberSeriesWithOptions': async sels => numberSeries.generate(sels.length, await numberSeries.getOptions(context)),
+  'insertDateSeriesWithOptions': async sels => numberSeries.generate(sels.length, await numberSeries.getOptions(context)),
+  'convertDateTime': async sels => datetime.convertDateTime(sels, await datetime.getConvertTimeOptions(context)),
+  'convertDateTimeToRelative': async sels => datetime.convertDateTimeToRelative(sels),
 };
 
 export function activate(extnContext: vscode.ExtensionContext) {
   context = extnContext;
+  utils.setContext(context);
 
   for (const command of Object.keys(globalCommands)) {
     utils.registerCommand(context, command, globalCommands[command]);
@@ -90,6 +112,10 @@ export function activate(extnContext: vscode.ExtensionContext) {
 
   for (const command of Object.keys(processTextCommands)) {
     utils.registerProcessTextCommand(context, command, processTextCommands[command]);
+  }
+
+  for (const command of Object.keys(processTextNewEditorCommands)) {
+    utils.registerProcessTextNewEditorCommand(context, command, processTextNewEditorCommands[command]);
   }
 
   for (const command of Object.keys(processTextsCommands)) {

@@ -1,6 +1,64 @@
 import * as vscode from 'vscode';
 import * as texty from './types';
 
+let context: vscode.ExtensionContext;
+export function setContext(contextIn: vscode.ExtensionContext) {
+  context = contextIn;
+}
+
+export const getOs = () => process.platform;
+export const isMac = () => process.platform === 'darwin';
+export const isWin = () => process.platform === 'win32';
+export const isLinux = () => process.platform === 'linux';
+
+export function extractNumbers(value: string) {
+  var numb = value.match(/\d/g);
+  return numb ? numb.join('') : '';
+}
+
+function getSettingString(key: string, defaultVal?: string) {
+  return defaultVal ? context.globalState.get<string>(key, defaultVal) :context.globalState.get<string>(key);
+}
+
+function getSettingList(key: string, defaultVal: string[]): string[] {
+  return context.globalState.get<string[]>(key, defaultVal);
+}
+
+function setSetting(key: string, value: string[] | string) {
+ context.globalState.update(key, value);
+}
+
+function toArray(input: any): any[] {
+  if (!input) {
+    return [];
+  }
+
+  if (!Array.isArray(input)) {
+    return [input];
+  }
+
+  return input;
+}
+
+function dedupe(inArray: any[], keySupplier = (it: any) => it): any[] {
+  const seen = new Set();
+  const deduped: any[] = [];
+
+  toArray(inArray).forEach((x) => {
+    const keyValue = keySupplier(x);
+    if (!seen.has(keyValue)) {
+      seen.add(keyValue);
+      deduped.push(x);
+    }
+  });
+
+  return deduped;
+}
+
+export function showError(message: string) {
+  vscode.window.showErrorMessage(message);
+}
+
 export function openUrl(url: string): undefined {
   vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
   return undefined;
@@ -71,35 +129,47 @@ export function registerCommand(context: vscode.ExtensionContext, id: string, ha
 }
 
 export type TextHandler = (sel: string | string[]) => string | string[] | Promise<string | string[] | undefined> | undefined;
-export function registerTextCommand(context: vscode.ExtensionContext, id: string, allSelections: boolean = false, defaultsToFull: boolean = false,
-    includeContent: boolean = false, selectionIsMust: boolean, handler: TextHandler) {
+type TextCommandOptions = {
+  allSelections?: boolean;
+  defaultsToFull?: boolean;
+  includeContent?: boolean;
+  selectionIsMust?: boolean;
+  resultsIntoNewEditor?: boolean;
+  handler: TextHandler;
+}
+export function registerTextCommand(context: vscode.ExtensionContext, id: string, options: TextCommandOptions) {
   context.subscriptions.push(vscode.commands.registerTextEditorCommand(`texty.${id}`, async (editor, edit) => {
-    const sels = getSelections(editor, defaultsToFull, includeContent);
+    const sels = getSelections(editor, options.defaultsToFull, options.includeContent);
     let updates: texty.Selection[] | undefined = [];
-    if (!allSelections) {
+    if (!options.allSelections) {
       updates = await Promise.all(sels.map(async sel => {
-        if (selectionIsMust) {
+        if (options.selectionIsMust) {
           if (sel.content) {
-            sel.newContent = await handler(sel.content) as string;
+            sel.newContent = await options.handler(sel.content) as string;
           }
         } else {
-          sel.newContent = await handler(sel.content || '') as string;
+          sel.newContent = await options.handler(sel.content || '') as string;
         }
   
         return sel;
       }));
     } else {
       const values = sels.map(sel => sel.content || '');
-      const updatedValues = await handler(values) as string[]; 
-      for (let index = 0; index < sels.length; index++) {
-        const sel = sels[index];
-        sel.newContent = updatedValues[index];
+      const updatedValues = await options.handler(values) as string[]; 
+      if (updatedValues) {
+        for (let index = 0; index < sels.length; index++) {
+            if (updatedValues.length > index) {
+                const sel = sels[index];
+                sel.newContent = updatedValues[index];
+            }
+        }
       }
-      updates = sels;
+    updates = sels;
     }
 
     if (updates) {
-      editor.edit((editBuilder) => {
+      const updateEditor = options.resultsIntoNewEditor ? await createNewEditor() : editor;
+      updateEditor.edit((editBuilder) => {
         for (const update of updates || []) {
           if (update && update.newContent) {
             editBuilder.replace(update.selection, update.newContent);
@@ -112,17 +182,39 @@ export function registerTextCommand(context: vscode.ExtensionContext, id: string
 
 export function registerInsertTextCommand(context: vscode.ExtensionContext, id: string,
   handler: (sels: string) => (undefined | string | Promise<string | undefined>)) {
-    registerTextCommand(context, id, false, false, false, false, handler as TextHandler);
+    registerTextCommand(context, id, {handler: handler as TextHandler});
 }
 
 export function registerProcessTextCommand(context: vscode.ExtensionContext, id: string,
   handler: (sel: string) => (undefined | string | Promise<string | undefined>)) {
-    registerTextCommand(context, id, false, true, true, true, handler as TextHandler);
+    registerTextCommand(context, id, {
+      includeContent: true, 
+      defaultsToFull: true, 
+      selectionIsMust: true, 
+      handler: handler as TextHandler
+    });
+}
+
+export function registerProcessTextNewEditorCommand(context: vscode.ExtensionContext, id: string,
+  handler: (sel: string) => (undefined | string | Promise<string | undefined>)) {
+    registerTextCommand(context, id, {
+      includeContent: true, 
+      defaultsToFull: true, 
+      selectionIsMust: true, 
+      resultsIntoNewEditor: true,
+      handler: handler as TextHandler
+    });
 }
 
 export function registerProcessTextsCommand(context: vscode.ExtensionContext, id: string,
   handler: (sel: string[]) => (undefined | string[] | Promise<string[] | undefined>)) {
-    registerTextCommand(context, id, true, true, true, true, handler as TextHandler);
+    registerTextCommand(context, id, {
+      allSelections: true,
+      includeContent: true,
+      defaultsToFull: true,
+      selectionIsMust: true,
+      handler: handler as TextHandler
+    });
 }
 
 export function replaceAll(str: string, search: string, replacement: string) {
@@ -173,6 +265,18 @@ export async function getInputNumber(prompt: string): Promise<number | undefined
   }
 
   return parseInt(resp);
+}
+
+export async function getInputString(prompt: string): Promise<string | undefined> {
+  const resp = await vscode.window.showInputBox({
+    prompt,
+  });
+
+  if (!resp) {
+    return undefined;
+  }
+
+  return resp.trim();
 }
 
 export type GetOptionsRequest = {
@@ -250,4 +354,69 @@ export async function getOptions(context: vscode.ExtensionContext, req: GetOptio
     });
   
     return options;
+}
+
+export async function createNewEditor(content?: string): Promise<vscode.TextEditor> {
+		return vscode.window.showTextDocument(await vscode.workspace.openTextDocument({content: content || '', language: '' } as any));
+}
+
+export function getEol() {
+  return vscode.EndOfLine.CRLF ? '\r\n' : '\n';
+}
+
+export function getEditorFile() {
+  const uri = vscode.window.activeTextEditor
+    && vscode.window.activeTextEditor.document
+    && vscode.window.activeTextEditor.document.uri;  
+
+  if (uri) {
+    return uri.fsPath;
+  }
+
+  return undefined;
+}
+
+export type GetQuickPickRequest = {
+  settingsKey: string,
+  defaultValue?: string;
+  placeholder: string;
+  items: GetQuickPickItem[];
+};
+
+export type GetQuickPickItem = {
+  value: string, 
+  label?: string,
+  description?: string;
+};
+
+export async function getQuickPick(prompt: boolean, req: GetQuickPickRequest): Promise<string | undefined> {
+  let value = getSettingString(req.settingsKey, req.defaultValue); 
+  if (!prompt) {
+    return value;
+  }
+
+  const historySettingsKey = `${req.settingsKey}.history`;
+  let history = getSettingList(historySettingsKey, []);
+  const quickPickItems = req.items.map(item => ({
+    label: item.label || item.value,
+    description: item.description,
+    alwaysShow: history.includes(item.value),
+    value: item.value,
+  }));
+
+  const pickedItem = await vscode.window.showQuickPick(quickPickItems, {
+    placeHolder: req.placeholder,
+    matchOnDescription: true,
+  });
+
+  if (!pickedItem) {
+    return undefined;
+  }
+
+  history.push(pickedItem.value);
+  history = dedupe(history);
+  setSetting(historySettingsKey, history);
+  setSetting(req.settingsKey, pickedItem.value);
+
+  return pickedItem.value;
 }
