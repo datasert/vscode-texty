@@ -1,9 +1,9 @@
 {
  "name": "vscode-texty",
  "displayName": "Texty",
- "description": "Sweet set of text utilities",
+ "description": "Sweet set of text utilities (filter, sort, remove, split, join, insert, open, encode/decode, encrypt)",
  "publisher": "datasert",
- "version": "0.0.10",
+ "version": "0.0.11",
  "repository": {
   "url": "https://github.com/datasert/vscode-texty"
  },
@@ -21,6 +21,8 @@
  ],
  "preview": false,
  "activationEvents": [
+  "onCommand:texty.copyText",
+  "onCommand:texty.copyTextAppend",
   "onCommand:texty.filterLinesContainsString",
   "onCommand:texty.filterLinesNotContainsString",
   "onCommand:texty.filterLinesContainsRegex",
@@ -37,7 +39,9 @@
   "onCommand:texty.insertUuidNoDashes",
   "onCommand:texty.insertShortId",
   "onCommand:texty.insertLoremIpsumParagraph",
-  "onCommand:texty.insertLoremIpsumSentence",
+  "onCommand:texty.insertLoremIpsumLine",
+  "onCommand:texty.insertLoremIpsumWord",
+  "onCommand:texty.insertLoremIpsumWithOptions",
   "onCommand:texty.insertLoremPicsum",
   "onCommand:texty.insertLoremPicsumWithOptions",
   "onCommand:texty.insertNumberSeriesFrom0",
@@ -97,6 +101,16 @@
  "main": "./out/extension.js",
  "contributes": {
   "commands": [
+   {
+    "category": "Texty",
+    "command": "texty.copyText",
+    "title": "Copy text"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.copyTextAppend",
+    "title": "Copy text append"
+   },
    {
     "category": "Texty",
     "command": "texty.openFileInSystemDefaultApp",
@@ -199,8 +213,18 @@
    },
    {
     "category": "Texty",
-    "command": "texty.insertLoremIpsumSentence",
-    "title": "Insert Lorem Ipsum Sentence"
+    "command": "texty.insertLoremIpsumLine",
+    "title": "Insert Lorem Ipsum Line"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertLoremIpsumWord",
+    "title": "Insert Lorem Ipsum Word"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertLoremIpsumWithOptions",
+    "title": "Insert Lorem Ipsum with Options"
    },
    {
     "category": "Texty",
@@ -505,6 +529,8 @@
   "vscode-test": "^1.2.2"
  },
  "dependencies": {
+  "@types/clipboardy": "^2.0.1",
+  "clipboardy": "^2.1.0",
   "entities": "^2.0.0",
   "jwt-decode": "^2.2.0",
   "lodash.camelcase": "^4.3.0",

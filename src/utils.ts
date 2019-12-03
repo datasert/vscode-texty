@@ -10,6 +10,7 @@ export const getOs = () => process.platform;
 export const isMac = () => process.platform === 'darwin';
 export const isWin = () => process.platform === 'win32';
 export const isLinux = () => process.platform === 'linux';
+export const eol = vscode.EndOfLine.CRLF ? '\r\n' : '\n';
 
 export function extractNumbers(value: string) {
   var numb = value.match(/\d/g);
@@ -59,6 +60,10 @@ export function showError(message: string) {
   vscode.window.showErrorMessage(message);
 }
 
+export function showInfo(message: string) {
+  vscode.window.showInformationMessage(message);
+}
+
 export function openUrl(url: string): undefined {
   vscode.commands.executeCommand('vscode.open', vscode.Uri.parse(url));
   return undefined;
@@ -96,7 +101,7 @@ function getSelectionContent(editor: vscode.TextEditor, selection: vscode.Select
 	let selectionContent = '';
 	for (const line of getSelectionLines(editor, selection)) {
     if (selectionContent && line) {
-      selectionContent += '\n';
+      selectionContent += eol;
     }
 		selectionContent += line;
   }
@@ -150,12 +155,12 @@ export function registerTextCommand(id: string, options: TextCommandOptions) {
         } else {
           sel.newContent = await options.handler(sel.content || '') as string;
         }
-  
+
         return sel;
       }));
     } else {
       const values = sels.map(sel => sel.content || '');
-      const updatedValues = await options.handler(values) as string[]; 
+      const updatedValues = await options.handler(values) as string[];
       if (updatedValues) {
         for (let index = 0; index < sels.length; index++) {
             if (updatedValues.length > index) {
@@ -188,9 +193,9 @@ export function registerInsertTextCommand(id: string,
 export function registerProcessTextCommand(id: string,
   handler: (sel: string) => (undefined | string | Promise<string | undefined>)) {
     registerTextCommand(id, {
-      includeContent: true, 
-      defaultsToFull: true, 
-      selectionIsMust: true, 
+      includeContent: true,
+      defaultsToFull: true,
+      selectionIsMust: true,
       handler: handler as TextHandler
     });
 }
@@ -198,9 +203,9 @@ export function registerProcessTextCommand(id: string,
 export function registerProcessTextNewEditorCommand(id: string,
   handler: (sel: string) => (undefined | string | Promise<string | undefined>)) {
     registerTextCommand(id, {
-      includeContent: true, 
-      defaultsToFull: true, 
-      selectionIsMust: true, 
+      includeContent: true,
+      defaultsToFull: true,
+      selectionIsMust: true,
       resultsIntoNewEditor: true,
       handler: handler as TextHandler
     });
@@ -311,22 +316,22 @@ function convertToValue(value: string, type: string, trim: boolean) {
 
 export async function getOptions(req: GetOptionsRequest) {
     let value = context.globalState.get<string>(req.settingsKey, req.settingsDefault);
-  
+
     if (req.showPrompt) {
       const resp = await vscode.window.showInputBox({
         value,
         prompt: req.message,
         placeHolder: req.placeHolder,
       });
-  
+
       if (!resp) {
         return undefined;
       }
-  
+
       context.globalState.update(req.settingsKey, resp);
       value = resp;
     }
-  
+
     const options: any = {};
     const props: any = {};
 
@@ -344,7 +349,7 @@ export async function getOptions(req: GetOptionsRequest) {
         const parts = pair.split('=');
         const key = parts[0].trim();
         const value = parts[1];
-        
+
         if (props[key]) {
           options[key] = convertToValue(value, props[key], options.trimValues);
         }
@@ -353,7 +358,7 @@ export async function getOptions(req: GetOptionsRequest) {
         // ignore
       }
     });
-  
+
     return options;
 }
 
@@ -361,15 +366,12 @@ export async function createNewEditor(content?: string): Promise<vscode.TextEdit
 		return vscode.window.showTextDocument(await vscode.workspace.openTextDocument({content: content || '', language: '' } as any));
 }
 
-export function getEol() {
-  return vscode.EndOfLine.CRLF ? '\r\n' : '\n';
+export function getActiveEditorFile() {
+  return getEditorFile(vscode.window.activeTextEditor);
 }
 
-export function getEditorFile() {
-  const uri = vscode.window.activeTextEditor
-    && vscode.window.activeTextEditor.document
-    && vscode.window.activeTextEditor.document.uri;  
-
+function getEditorFile(editor?: vscode.TextEditor) {
+  const uri = editor && editor.document && editor.document.uri;
   if (uri) {
     return uri.fsPath;
   }
@@ -385,13 +387,13 @@ export type GetQuickPickRequest = {
 };
 
 export type GetQuickPickItem = {
-  value: string, 
+  value: string,
   label?: string,
   description?: string;
 };
 
 export async function getQuickPick(prompt: boolean, req: GetQuickPickRequest): Promise<string | undefined> {
-  let value = getSettingString(req.settingsKey, req.defaultValue); 
+  let value = getSettingString(req.settingsKey, req.defaultValue);
   if (!prompt) {
     return value;
   }
@@ -420,4 +422,9 @@ export async function getQuickPick(prompt: boolean, req: GetQuickPickRequest): P
   setSetting(req.settingsKey, pickedItem.value);
 
   return pickedItem.value;
+}
+
+export function setClipboard(value: string) {
+  vscode.env.clipboard.writeText(value);
+  showInfo('Copied to clipboard!');
 }

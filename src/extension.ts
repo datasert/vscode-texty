@@ -10,6 +10,7 @@ import * as lines from './modules/lines';
 import * as numberSeries from './modules/numberSeries';
 import * as datetime from './modules/datetime';
 import * as open from './modules/open';
+import * as copy from './modules/copy';
 
 let context: vscode.ExtensionContext;
 
@@ -24,13 +25,16 @@ const insertTextCommands: { [key: string]: () => undefined | string | Promise<st
   'insertUuid': uuid.generateUuid,
   'insertUuidKey': uuid.generateUuidKey,
   'insertUuidNoDashes': uuid.generateUuidNoDashes,
-  'insertLoremIpsumParagraph': () => lorem.generateLorem({ type: 'paragraph', count: 10 }),
-  'insertLoremIpsumSentence': () => lorem.generateLorem({ type: 'sentence', count: 10 }),
+  'insertLoremIpsumParagraph': lorem.generatePara,
+  'insertLoremIpsumLine': lorem.generateLine,
+  'insertLoremIpsumWord': lorem.generateWord,
+  'insertLoremIpsumWithOptions': async () => lorem.generate(await lorem.getOptions()),
   'insertLoremPicsum': async () => picsum.generatePicsum(await picsum.getPicsumOptions(context)),
   'insertLoremPicsumWithOptions': async () => picsum.generatePicsum(await picsum.getPicsumOptions(context, true)),
-  'openFileInSystemDefaultApp': () => open.openFileInSystemDefaultApp(utils.getEditorFile()),
-  'openFileInBrowser': async () => open.openFileInBrowser(utils.getEditorFile(), await open.getPreferredBrowser(false)),
-  'openFileInBrowserPrompt': async () => open.openFileInBrowser(utils.getEditorFile(), await open.getPreferredBrowser(true)),
+  // 'copyAllOpenedFileNames': copy.copyAllOpenedFileNames,
+  'openFileInSystemDefaultApp': () => open.openFileInSystemDefaultApp(utils.getActiveEditorFile()),
+  'openFileInBrowser': async () => open.openFileInBrowser(utils.getActiveEditorFile(), await open.getPreferredBrowser(false)),
+  'openFileInBrowserPrompt': async () => open.openFileInBrowser(utils.getActiveEditorFile(), await open.getPreferredBrowser(true)),
 };
 
 const processTextCommands: { [key: string]: (sels: string) => undefined | string | Promise<string | undefined>} = {
@@ -100,6 +104,8 @@ const processTextsCommands: { [key: string]: (sels: string[]) => undefined | str
   'insertDateSeriesWithOptions': async sels => numberSeries.generate(sels.length, await numberSeries.getOptions()),
   'convertDateTime': async sels => datetime.convertDateTime(sels, await datetime.getConvertTimeOptions()),
   'convertDateTimeToRelative': async sels => datetime.convertDateTimeToRelative(sels),
+  'copyText': copy.copyText,
+  'copyTextAppend': copy.copyTextAppend,
 };
 
 export function activate(extnContext: vscode.ExtensionContext) {

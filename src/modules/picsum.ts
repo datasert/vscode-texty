@@ -1,4 +1,5 @@
 import * as vscode from 'vscode';
+import * as utils from '../utils';
 
 export class Options {
   id = 0;
@@ -51,7 +52,7 @@ export async function getPicsumOptions(context: vscode.ExtensionContext, prompt:
     const resp = await vscode.window.showInputBox({
       value,
       prompt: 'Enter the options for Picsum images. If id=0, random id will be substituted. If id = -1, '
-        + 'tag will be generated without id so it will load with random image each time it is rendered.\n\n',
+        + 'tag will be generated without id so it will load with random image each time it is rendered.' + utils.eol + utils.eol,
       placeHolder: 'For ex., `id=0, width=600, height=400, blur=0, grayscale=0`',
     });
 

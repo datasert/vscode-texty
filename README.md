@@ -31,6 +31,13 @@ Open
 | Open file in Browser...         | Opens the current file in browser selected by the user. Once selected, the browser preference is saved and then above command will use this browser |
 | Open file in System default app | Opens the current file in System associated app.                                                                                                    |
 
+Copy
+--
+| Command                         | Description                                                                                                                                         |
+| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Copy text                       | Copies the selections in text only mode into clipboard                                                                                              |
+| Copy text append                | Appends the selections in text only mode into current text contents of the clipboard |
+
 Insert
 --
 | Command                          | Description                                                                                                                            |
@@ -42,8 +49,10 @@ Insert
 | Insert Uuid (No Dashes)          | Inserts uuid without dashes into selections. For ex., ece1953e8bca46d8a70156c6fe1c1aaa                                                 |
 | Insert Uuid Key                  | Inserts uuid with {} and inserts into the selections. For ex., {ece1953e-8bca-46d8-a701-56c6fe1c1aaa}                                  |
 | Insert Short Id                  | Inserts short ids. For ex.,                                                                                                            |
-| Insert Lorem Ipsum Sentence      | Inserts one sentense of lorem ipsum text into selections                                                                               |
+| Insert Lorem Ipsum Word          | Inserts one word of lorem ipsum text into selections                                                                                   |
+| Insert Lorem Ipsum Line          | Inserts one sentense of lorem ipsum text into selections                                                                               |
 | Insert Lorem Ipsum Paragraph     | Inserts one paragraph of lorem ipsum text into selections                                                                              |
+| Insert Lorem Ipsum with Options  | Prompts user for options and generates the text according to that                                                                      |
 | Insert Lorem Picsum              | Inserts image tag with image from Lorem Picsum with previosly specified or default options. Checkout [Picsum](https://picsum.photos/). |
 | Insert Lorem Picsum with options | Shows options dialog box and then inserts random image based on specified options                                                      |
 | Insert Time ISO Format           | Inserts current time in ISO 8601 format. For ex., 2019-11-30T04:25:12Z                                                                 |

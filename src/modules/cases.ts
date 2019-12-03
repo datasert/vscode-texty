@@ -6,6 +6,7 @@ import kebabCase from 'lodash.kebabcase';
 import replace from 'lodash.replace';
 import snakeCase from 'lodash.snakecase';
 import upperFirst from 'lodash.upperfirst';
+import * as utils from '../utils';
 
 /**
  * Normalizes given text into spaced words by words boundary. Word boundary is any special char, or capital case.
@@ -21,7 +22,7 @@ function splitWords(content: string) {
 }
 
 function processWords(content: string, handler: (words: string) => string): string {
-  return content.split('\n').map(line => handler(splitWords(line))).join('\n');
+  return content.split(utils.eol).map(line => handler(splitWords(line))).join(utils.eol);
 }
 
 export function convertToLowerCase(content: string): string {

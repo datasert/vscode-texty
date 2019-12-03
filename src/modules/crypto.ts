@@ -21,10 +21,10 @@ async function getPassword(prompt: string): Promise<string | undefined> {
     password: true,
   };
 
-  return await vscode.window.showInputBox(options);  
+  return await vscode.window.showInputBox(options);
 }
 export async function encryptTextWithPrompt(sel: string): Promise<string | undefined> {
-  const resp = await getPassword('Enter Password to encrypt the text. You will need this password to decrypt the text later. ' 
+  const resp = await getPassword('Enter Password to encrypt the text. You will need this password to decrypt the text later. '
     + 'If you forget, you will NOT be able to decrypt the text.');
   if (!resp) {
     return undefined;
@@ -41,7 +41,7 @@ export async function decryptTextWithPrompt(sel: string): Promise<string | undef
       if (!resp) {
         return undefined;
       }
-      return sjcl.decrypt(resp, JSON.parse(utils.fromHex(utils.replaceAll(sel, '\n', ''))));
+      return sjcl.decrypt(resp, JSON.parse(utils.fromHex(utils.replaceAll(sel, utils.eol, ''))));
     } catch (error) {
       message = 'Invalid Password. Please try again.';
     }

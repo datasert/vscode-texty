@@ -34,12 +34,12 @@ export function generate(count: number, options?: Options) {
     const values: string[] = [];
     let value = options.start;
     let loopCount = 0;
-    
+
     for (let index = 0; index < count; index++) {
         const formattedNumber = formatNumber(value, options.format || '#');
         values.push(options.padSize ? padStart(formattedNumber, options.padSize, options.padString || ' ') : formattedNumber);
         value += options.step;
-        
+
         loopCount++;
         if (options.count && loopCount >= options.count) {
             loopCount = 0;
@@ -53,7 +53,7 @@ export function generate(count: number, options?: Options) {
 export async function getOptions(): Promise<Options> {
     const options = await utils.getOptions({
         placeHolder: 'Specify options with comma separated key=value pairs',
-        message: 'Enter Number Series Options. Defaults to [start=0, step=1, format=#, count=, padSize=0, padString=0]. Where ' 
+        message: 'Enter Number Series Options. Defaults to [start=0, step=1, format=#, count=, padSize=0, padString=0]. Where '
             + 'start=Number to start the series with. It can be any number; '
             + 'step=Number to add for each series. It can be -ve value; '
             + 'format=Number format according to numeral npm package. Defaults to no decimal places; '

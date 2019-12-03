@@ -1,7 +1,7 @@
 import * as utils from "../utils";
 
 function process(content: string, handler: (lines: string[]) => string[]) {
-    return handler(content.split('\n')).join('\n');
+    return handler(content.split(utils.eol)).join(utils.eol);
 }
 
 export function sortLines(content: string) {
@@ -42,11 +42,11 @@ export function sortLinesByLengthReverse(content: string) {
 }
 
 export function splitBySentences(content: string) {
-    return content.split('.').map(line => line.trim()).join('.\n');
+    return content.split('.').map(line => line.trim()).join('.' + utils.eol);
 }
 
 export function splitLinesByLength(content: string, maxLength: number) {
-    return content.split('\n').map(line => (line.match(new RegExp('.{1,' + maxLength + '}', 'g')) || []).join('\n')).join('.\n');
+    return content.split(utils.eol).map(line => (line.match(new RegExp('.{1,' + maxLength + '}', 'g')) || []).join(utils.eol)).join('.' + utils.eol);
 }
 
 export function splitLinesByLength120(content: string) {
@@ -84,7 +84,7 @@ export function removeDuplicatesIgnoreCase(content: string) {
               result.push(element);
           }
           return result;
-        }, []);        
+        }, []);
     });
 }
 
@@ -182,7 +182,7 @@ export function joinLines(content: string, options: JoinLineOptions) {
 export async function getJoinLinesOptions(prompt: boolean): Promise<JoinLineOptions> {
     const options = await utils.getOptions({
         placeHolder: 'Specify options with comma separated key=value pairs',
-        message: 'Enter Join Lines Options. Defaults to [start=, between= , end=]. Where ' 
+        message: 'Enter Join Lines Options. Defaults to [start=, between= , end=]. Where '
             + 'start=String to prefix the joined line; '
             + 'between=String to join all lines with; '
             + 'end=String to suffix the joined line; ',
