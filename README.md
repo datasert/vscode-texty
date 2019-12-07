@@ -33,30 +33,35 @@ Open
 
 Copy
 --
-| Command                         | Description                                                                                                                                         |
-| ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Copy text                       | Copies the selections in text only mode into clipboard                                                                                              |
-| Copy text append                | Appends the selections in text only mode into current text contents of the clipboard |
+| Command                          | Description                                                                          |
+| -------------------------------- | ------------------------------------------------------------------------------------ |
+| Copy text                        | Copies the selections in text only mode into clipboard                               |
+| Copy text append                 | Appends the selections in text only mode into current text contents of the clipboard |
+| Copy lines containing string     | Copies lines containing user specified string                                        |
+| Copy lines not containing string | Copies lines not containing user specified string                                    |
+| Copy lines containing regex      | Copies lines containing user specified regex pattern                                 |
+| Copy lines not containing regex  | Copies lines not containing the user specified regex pattern                         |
 
 Insert
 --
-| Command                          | Description                                                                                                                            |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| Insert Number Series from 0      | Inserts number series starting from 0                                                                                                  |
-| Insert Number Series from 1      | Inserts number series starting from 1                                                                                                  |
-| Insert Number Series...          | Prompts user to enter various options and inserts series according to specified options.                                               |
-| Insert Uuid                      | Inserts uuid into the selections. For ex., ece1953e-8bca-46d8-a701-56c6fe1c1aaa                                                        |
-| Insert Uuid (No Dashes)          | Inserts uuid without dashes into selections. For ex., ece1953e8bca46d8a70156c6fe1c1aaa                                                 |
-| Insert Uuid Key                  | Inserts uuid with {} and inserts into the selections. For ex., {ece1953e-8bca-46d8-a701-56c6fe1c1aaa}                                  |
-| Insert Short Id                  | Inserts short ids. For ex.,                                                                                                            |
-| Insert Lorem Ipsum Word          | Inserts one word of lorem ipsum text into selections                                                                                   |
-| Insert Lorem Ipsum Line          | Inserts one sentense of lorem ipsum text into selections                                                                               |
-| Insert Lorem Ipsum Paragraph     | Inserts one paragraph of lorem ipsum text into selections                                                                              |
-| Insert Lorem Ipsum with Options  | Prompts user for options and generates the text according to that                                                                      |
-| Insert Lorem Picsum              | Inserts image tag with image from Lorem Picsum with previosly specified or default options. Checkout [Picsum](https://picsum.photos/). |
-| Insert Lorem Picsum with options | Shows options dialog box and then inserts random image based on specified options                                                      |
-| Insert Time ISO Format           | Inserts current time in ISO 8601 format. For ex., 2019-11-30T04:25:12Z                                                                 |
-| Insert Date ISO Format           | Inserts today in ISO 8601 format. For ex., 2019-11-29                                                                                  |
+| Command                          | Description                                                                                                                                                                                                                       |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Insert Number Series from 0      | Inserts number series starting from 0                                                                                                                                                                                             |
+| Insert Number Series from 1      | Inserts number series starting from 1                                                                                                                                                                                             |
+| Insert Number Series...          | Prompts user to enter various options and inserts series according to specified options.                                                                                                                                          |
+| Insert Uuid                      | Inserts uuid into the selections. For ex., ece1953e-8bca-46d8-a701-56c6fe1c1aaa                                                                                                                                                   |
+| Insert Uuid (No Dashes)          | Inserts uuid without dashes into selections. For ex., ece1953e8bca46d8a70156c6fe1c1aaa                                                                                                                                            |
+| Insert Uuid Key                  | Inserts uuid with {} and inserts into the selections. For ex., {ece1953e-8bca-46d8-a701-56c6fe1c1aaa}                                                                                                                             |
+| Insert Short Id                  | Inserts short ids. For ex.,                                                                                                                                                                                                       |
+| Insert Lorem Ipsum Word          | Inserts one word of lorem ipsum text into selections                                                                                                                                                                              |
+| Insert Lorem Ipsum Line          | Inserts one sentense of lorem ipsum text into selections                                                                                                                                                                          |
+| Insert Lorem Ipsum Paragraph     | Inserts one paragraph of lorem ipsum text into selections                                                                                                                                                                         |
+| Insert Lorem Ipsum with Options  | Prompts user for options and generates the text according to that                                                                                                                                                                 |
+| Insert Lorem Picsum              | Inserts image tag with image from Lorem Picsum with previosly specified or default options. Checkout [Picsum](https://picsum.photos/).                                                                                            |
+| Insert Lorem Picsum with options | Shows options dialog box and then inserts random image based on specified options                                                                                                                                                 |
+| Insert Time ISO Format           | Inserts current time in ISO 8601 format. For ex., 2019-11-30T04:25:12Z                                                                                                                                                            |
+| Insert Date ISO Format           | Inserts today in ISO 8601 format. For ex., 2019-11-29                                                                                                                                                                             |
+| Insert Preset Series             | Prompts user to select preset type and generates series of that type. Available presets are [here](https://github.com/datasert/vscode-texty/blob/master/src/modules/config.json). See guide `Preset Series` for more information. |
 
 Convert
 --
@@ -176,6 +181,26 @@ Command `Insert Number Series...` can be used to generate number series of any k
 | `padString` | string       | If number needs to be padded, it will use this pad string. This can be single char or multi char. If no pad string is specified, then defaults to space.                                      |
 
 ![](https://i.imgur.com/1rbkYNN.gif)
+
+Preset Series
+--
+Command `Insert Preset Series` can be used to generate series of various preset series into the selection. Available presets are found in [this config](https://github.com/datasert/vscode-texty/blob/master/src/modules/cases.ts).
+In later versions, we will add support for custom series.
+
+Here are avaiable presets.
+
+| Type                 | Description                |
+| -------------------- | -------------------------- |
+| `Greek Letter Names` | For ex., Alpha, Beta       |
+| `Greek Lettes`       | For ex., α, β              |
+| `Letters Lowercase`  | For ex., a, b              |
+| `Letters Uppercase`  | For ex., A, B              |
+| `Months Long`        | For ex., January, February |
+| `Months Short`       | For ex., Jan, Feb          |
+| `Number Words`       | For ex., One, Two          |
+| `Roman Numbers`      | For ex., I, II             |
+| `Weekdays Long`      | For ex., Monday, Tuesday   |
+| `Weekdays Short`     | For ex., Mon, Tue          |
 
 Credits
 ==

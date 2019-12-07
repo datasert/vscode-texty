@@ -141,7 +141,8 @@ type TextCommandOptions = {
   selectionIsMust?: boolean;
   resultsIntoNewEditor?: boolean;
   handler: TextHandler;
-}
+};
+
 export function registerTextCommand(id: string, options: TextCommandOptions) {
   context.subscriptions.push(vscode.commands.registerTextEditorCommand(`texty.${id}`, async (editor, edit) => {
     const sels = getSelections(editor, options.defaultsToFull, options.includeContent);
@@ -186,8 +187,17 @@ export function registerTextCommand(id: string, options: TextCommandOptions) {
 }
 
 export function registerInsertTextCommand(id: string,
-  handler: (sels: string) => (undefined | string | Promise<string | undefined>)) {
-    registerTextCommand(id, {handler: handler as TextHandler});
+    handler: (sels: string) => (undefined | string | Promise<string | undefined>)) {
+  registerTextCommand(id, {handler: handler as TextHandler});
+}
+
+export function registerInsertTextsCommand(id: string,
+  handler: (selsCount: number) => (undefined | string[] | Promise<string[] | undefined>)) {
+  const internalHandler = (sels: string[]) => handler(sels.length);
+  registerTextCommand(id, {
+    allSelections: true,
+    handler: internalHandler as TextHandler
+  });
 }
 
 export function registerProcessTextCommand(id: string,
@@ -200,9 +210,10 @@ export function registerProcessTextCommand(id: string,
     });
 }
 
-export function registerProcessTextNewEditorCommand(id: string,
-  handler: (sel: string) => (undefined | string | Promise<string | undefined>)) {
+export function registerProcessTextsNewEditorCommand(id: string,
+  handler: (sel: string[]) => (undefined | string[] | Promise<string[] | undefined>)) {
     registerTextCommand(id, {
+      allSelections: true,
       includeContent: true,
       defaultsToFull: true,
       selectionIsMust: true,
@@ -382,7 +393,7 @@ function getEditorFile(editor?: vscode.TextEditor) {
 export type GetQuickPickRequest = {
   settingsKey: string,
   defaultValue?: string;
-  placeholder: string;
+  placeHolder: string;
   items: GetQuickPickItem[];
 };
 
@@ -408,7 +419,7 @@ export async function getQuickPick(prompt: boolean, req: GetQuickPickRequest): P
   }));
 
   const pickedItem = await vscode.window.showQuickPick(quickPickItems, {
-    placeHolder: req.placeholder,
+    placeHolder: req.placeHolder,
     matchOnDescription: true,
   });
 
@@ -427,4 +438,12 @@ export async function getQuickPick(prompt: boolean, req: GetQuickPickRequest): P
 export function setClipboard(value: string) {
   vscode.env.clipboard.writeText(value);
   showInfo('Copied to clipboard!');
+}
+
+export function splitArray<T>(myArray: T[], chunkSize: number): T[][] {
+  return toArray(myArray).reduce((all, one, ii) => {
+    const ch = Math.floor(ii / chunkSize);
+    all[ch] = [].concat((all[ch] || []), one);
+    return all;
+  }, []);
 }

@@ -58,7 +58,7 @@ export async function openFileInBrowser(file?: string, browser?: string): Promis
 export async function getPreferredBrowser(prompt: boolean) {
     return utils.getQuickPick(prompt, {
         settingsKey: 'general.preferredBrowser',
-        placeholder: 'Please select your preferred browser',
+        placeHolder: 'Please select your preferred browser',
         items: [
             {value: 'chrome', label: 'Chrome'},
             {value: 'firefox', label: 'Firefox'},

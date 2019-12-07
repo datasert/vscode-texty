@@ -3,7 +3,7 @@
  "displayName": "Texty",
  "description": "Sweet set of text utilities (filter, sort, remove, split, join, insert, open, encode/decode, encrypt)",
  "publisher": "datasert",
- "version": "0.0.11",
+ "version": "1.0.0",
  "repository": {
   "url": "https://github.com/datasert/vscode-texty"
  },
@@ -23,6 +23,10 @@
  "activationEvents": [
   "onCommand:texty.copyText",
   "onCommand:texty.copyTextAppend",
+  "onCommand:texty.copyLinesContainsString",
+  "onCommand:texty.copyLinesNotContainsString",
+  "onCommand:texty.copyLinesContainsRegex",
+  "onCommand:texty.copyLinesNotContainsRegex",
   "onCommand:texty.filterLinesContainsString",
   "onCommand:texty.filterLinesNotContainsString",
   "onCommand:texty.filterLinesContainsRegex",
@@ -44,6 +48,7 @@
   "onCommand:texty.insertLoremIpsumWithOptions",
   "onCommand:texty.insertLoremPicsum",
   "onCommand:texty.insertLoremPicsumWithOptions",
+  "onCommand:texty.insertPresetSeries",
   "onCommand:texty.insertNumberSeriesFrom0",
   "onCommand:texty.insertNumberSeriesFrom1",
   "onCommand:texty.insertNumberSeriesWithOptions",
@@ -125,6 +130,26 @@
     "category": "Texty",
     "command": "texty.openFileInBrowserPrompt",
     "title": "Open file in Browser..."
+   },
+   {
+    "category": "Texty",
+    "command": "texty.copyLinesContainsString",
+    "title": "Copy lines containing string"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.copyLinesNotContainsString",
+    "title": "Copy lines not containing string"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.copyLinesContainsRegex",
+    "title": "Copy lines containing regex"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.copyLinesNotContainsRegex",
+    "title": "Copy lines not containing regex"
    },
    {
     "category": "Texty",
@@ -229,12 +254,12 @@
    {
     "category": "Texty",
     "command": "texty.insertLoremPicsum",
-    "title": "Insert Lorem Picsum Image Tags"
+    "title": "Insert Lorem Picsum Urls"
    },
    {
     "category": "Texty",
     "command": "texty.insertLoremPicsumWithOptions",
-    "title": "Insert Lorem Picsum Image Tags..."
+    "title": "Insert Lorem Picsum Urls with options"
    },
    {
     "category": "Texty",
@@ -249,7 +274,12 @@
    {
     "category": "Texty",
     "command": "texty.insertNumberSeriesWithOptions",
-    "title": "Insert Number Series..."
+    "title": "Insert Number Series with options"
+   },
+   {
+    "category": "Texty",
+    "command": "texty.insertPresetSeries",
+    "title": "Insert Preset Series"
    },
    {
     "category": "Texty",

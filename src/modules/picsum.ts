@@ -15,34 +15,39 @@ function getRandomId() {
   return parseInt('' + (Math.random() * (max - min) + min), 10);
 }
 
-export function generatePicsum(options: Options | undefined) {
+export function generate(count: number, options: Options | undefined) {
   if (!options) {
     return undefined;
   }
 
-  let tag = `<img src="https://picsum.photos`;
-  if (options.id === 0) {
-    tag += '/id/' + getRandomId();
-  } else if (options.id > 0) {
-    tag += '/id/' + options.id;
+  const values: string[] = [];
+  for (let index = 0; index < count; index++) {
+    let tag = `https://picsum.photos`;
+    if (options.id === 0) {
+      tag += '/id/' + getRandomId();
+    } else if (options.id > 0) {
+      tag += '/id/' + options.id;
+    }
+
+    tag += `/${options.width}/${options.height}`;
+
+    let query = '';
+    if (options.grayscale > 0) {
+      query += '&grayscale';
+    }
+    if (options.blur > 0) {
+      query += '&blur=' + options.blur;
+    }
+
+    if (query) {
+      tag += '?' + query.substr(1);
+    }
+
+    tag += '';
+    values.push(tag);
   }
 
-  tag += `/${options.width}/${options.height}?`;
-
-  let query = '';
-  if (options.grayscale > 0) {
-    query += '&grayscale';
-  }
-  if (options.blur > 0) {
-    query += '&blur=' + options.blur;
-  }
-
-  if (query) {
-    tag += query.substr(1);
-  }
-
-  tag += '"/>';
-  return tag;
+  return values;
 }
 
 export async function getPicsumOptions(context: vscode.ExtensionContext, prompt: boolean = false) {

@@ -1,6 +1,14 @@
 # Change Log
 All notable changes to the "texty" extension will be documented in this file.
 
+## [0.0.12] - 2019-12-07
+### Added
+- Add `Copy lines containing string` Command
+- Add `Copy lines not containing string` Command
+- Add `Copy lines containing regex` Command
+- Add `Copy lines not containing regex` Command
+- Add `Insert Preset Series` Command
+
 ## [0.0.9] - 2019-12-01
 ### Added
 - Add `Join lines with space` Command

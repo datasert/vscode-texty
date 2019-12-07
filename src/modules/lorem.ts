@@ -18,31 +18,37 @@ export class Options {
 }
 
 export function generatePara(): string | undefined {
-  return generate({type: 'para', count: 1});
+  return (generate(1, {type: 'para', count: 1}) as string[])[0];
 }
 
 export function generateLine(): string | undefined {
-  return generate({type: 'line', count: 1});
+  return (generate(1, {type: 'line', count: 1}) as string[])[0];
 }
 
 export function generateWord(): string | undefined {
-  return generate({type: 'word', count: 1});
+  return (generate(1, {type: 'word', count: 1}) as string[])[0];
 }
 
-export function generate(options = new Options()): string | undefined {
+export function generate(selsCount: number, options = new Options()): string[] | undefined {
   if(!options) {
     return undefined;
   }
 
-  if (options.type === 'word') {
-    return lorem.generateWords(options.count);
+  const values: string[] = [];
+
+  for (let index = 0; index < selsCount; index++) {
+    if (options.type === 'word' || options.type === 'words') {
+      values.push(lorem.generateWords(options.count));
+
+    } else if (options.type === 'line' || options.type === 'lines') {
+      values.push(lorem.generateSentences(options.count));
+
+    } else {
+      values.push(lorem.generateParagraphs(options.count));
+    }
   }
 
-  if (options.type === 'line') {
-    return lorem.generateSentences(options.count);
-  }
-
-  return lorem.generateParagraphs(options.count);
+  return values;
 }
 
 export async function getOptions(): Promise<Options> {
@@ -60,6 +66,8 @@ export async function getOptions(): Promise<Options> {
       ],
       trimValues: true,
   });
+
+    console.log('Returning options ' + JSON.stringify(options));
 
   return options as Options;
 }
