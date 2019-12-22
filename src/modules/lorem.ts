@@ -67,7 +67,5 @@ export async function getOptions(): Promise<Options> {
       trimValues: true,
   });
 
-    console.log('Returning options ' + JSON.stringify(options));
-
   return options as Options;
 }

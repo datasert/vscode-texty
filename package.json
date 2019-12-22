@@ -3,7 +3,7 @@
  "displayName": "Texty",
  "description": "Sweet set of text utilities (filter, sort, remove, split, join, insert, open, encode/decode, encrypt)",
  "publisher": "datasert",
- "version": "1.1.0",
+ "version": "1.1.1",
  "repository": {
   "url": "https://github.com/datasert/vscode-texty"
  },
@@ -537,12 +537,12 @@
    {
     "category": "Texty",
     "command": "texty.processSelectionsUsingScript",
-    "title": "Process selections using custom script"
+    "title": "Process selections using script"
    },
    {
     "category": "Texty",
     "command": "texty.processLinesUsingScript",
-    "title": "Process lines using custom script"
+    "title": "Process lines using script"
    },
    {
     "category": "Texty",

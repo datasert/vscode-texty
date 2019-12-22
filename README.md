@@ -163,20 +163,15 @@ Encryption
 | Encrypt Text  | Prompts for password and replaces each selections with encrypted base64 encoded strings |
 | Decrypt Text  | Prompts for password and replaces each selections with decrypted base64 encoded strings |
 
-Process Text using Custom Script
+Custom Script/Command
 --
+
+See the guide below for more information about these commands.
+
 | Command                         | Description                                                                        |
 | ------------------------------- | ---------------------------------------------------------------------------------- |
 | Process selections using script | Prompts user to enter any Javascript code and process selections using that script |
 | Process lines using script      | Prompts user to enter any Javascript code and process lines using that script      |
-
-Process Text using Custom Commands
---
-
-See the guide below to on how to create custom commands.
-
-| Command                           | Description                                                                                           |
-| --------------------------------- | ----------------------------------------------------------------------------------------------------- |
 | Process text using Custom Command | Prompts user to select one of the defined custom commands and processes selections using that command |
 
 Translate
@@ -223,17 +218,15 @@ Here are avaiable presets.
 | Weekdays Long      | For ex., Monday, Tuesday   |
 | Weekdays Short     | For ex., Mon, Tue          |
 
-Process selections using Custom Script
+Process selections using Script
 --
-The command `Process selections using custom script` prompts use to enter any arbitary javascript expressions and replaces the selections with result of that expression execution.
+The command `Process selections using script` prompts use to enter any arbitary javascript expressions and replaces the selections with result of that expression execution.
 
 The custom script can refer to following variables.
 
 | Variable   | Type     | Description                                                                                                                                              |
 | ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| selections | string[] | All the current selections as string array                                                                                                               |
 | selection  | string   | Current selection which the script is processing. If there are more than one selection, then script is executed multiple times (once for each selection) |
-| line       | string   | Applicable only for `Process lines using custom script`. Script is executed for each line with in each of the selections                                 |
 | lodash     | lodash   | This is full lodash reference so you can use any of those functions                                                                                      |
 | _          | lodash   | Alias for `lodash`                                                                                                                                       |
 | moment     | moment   | The moment-timezone reference so you can use it to format dates etc.,                                                                                    |
@@ -259,14 +252,13 @@ Here are some examples.
   _.uniq(selection.split(' ')).join(' ')
   ```
 
-Process lines using Custom Script
+Process lines using Script
 --
-The command `Process lines using custom script` is same as `Process selections using custom script` but it splits each selections into lines,
-then calls the script for each line with in each selections. This script context has access to following variables in addition to above variables.
+This command is same as `Process selections using script` but it splits each selection into lines,
+then calls the script for each line within each selections. This script context has access to following variables in addition to ones listed above.
 
 | Variable | Type     | Description                                        |
 | -------- | -------- | -------------------------------------------------- |
-| lines    | string[] | Lines within the current selection being processed |
 | line     | string   | Line for which script is being executed            |
 
 Process selections using Custom Command
