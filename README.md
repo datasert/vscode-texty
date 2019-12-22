@@ -14,7 +14,6 @@ To install this extension, follow these steps.
 
 ![Install](https://i.imgur.com/4n06Vp9.gif)
 
-
 Commands
 ==
 Texty has multiple modules, each of them with multiple utilities/commands.
@@ -63,7 +62,7 @@ Insert
 | Insert Date ISO Format           | Inserts today in ISO 8601 format. For ex., 2019-11-29                                                                                                                                                                             |
 | Insert Preset Series             | Prompts user to select preset type and generates series of that type. Available presets are [here](https://github.com/datasert/vscode-texty/blob/master/src/modules/config.json). See guide `Preset Series` for more information. |
 
-Convert
+Convert Case
 --
 | Command                  | Description                                                                         |
 | ------------------------ | ----------------------------------------------------------------------------------- |
@@ -79,8 +78,14 @@ Convert
 | Convert to Space Case    | For ex., Account Number                                                             |
 | Convert to Sentense Case | For ex., Account number                                                             |
 | Convert to Capital Case  | For ex., Account Number                                                             |
-| Convert to Date/Time...  | Prompts user for options and converts the date/time to according to those options.  |
-| Convert to relative time | Converts the date/times to relative times. For ex., 2 minutes ago, 5 days ago etc., |
+
+Convert Date/time
+--
+| Command                                    | Description                                                                                   |
+| ------------------------------------------ | --------------------------------------------------------------------------------------------- |
+| Convert to Date/Time...                    | Prompts user for options and converts the date/time to according to those options.            |
+| Convert to Relative time                   | Converts the date/times to relative times. For ex., 2 minutes ago, 5 days ago etc.,           |
+| Convert Date/Time to human friendly format | Converts the selected date/time to human friendly format. For ex., Tue Jan 1 2019, 6:45:23 am |
 
 Filter
 --
@@ -158,6 +163,22 @@ Encryption
 | Encrypt Text  | Prompts for password and replaces each selections with encrypted base64 encoded strings |
 | Decrypt Text  | Prompts for password and replaces each selections with decrypted base64 encoded strings |
 
+Process Text using Custom Script
+--
+| Command                         | Description                                                                        |
+| ------------------------------- | ---------------------------------------------------------------------------------- |
+| Process selections using script | Prompts user to enter any Javascript code and process selections using that script |
+| Process lines using script      | Prompts user to enter any Javascript code and process lines using that script      |
+
+Process Text using Custom Commands
+--
+
+See the guide below to on how to create custom commands.
+
+| Command                           | Description                                                                                           |
+| --------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| Process text using Custom Command | Prompts user to select one of the defined custom commands and processes selections using that command |
+
 Translate
 --
 | Command                | Description                                        |
@@ -171,14 +192,14 @@ Number Series
 --
 Command `Insert Number Series...` can be used to generate number series of any kind using options below.
 
-| Option      | Type         | Description                                                                                                                                                                                   |
-| ----------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `start`     | int or float | The starting number of the series. It can be integer or float and can also be -ve value. For ex., 1 or 1.5 or -100                                                                                                             |
-| `step`      | int or float | The amount to increment for each new number. This value will be added to previous value. This can be -ve value if you want to series to go back.                            |
-| `count`     | int          | The maximum number of values to generate. After these many values are generated, series will start over from `start` value                                                                       |
-| `format`    | string       | If you want to format the numbers, you can specify the format string here and it will be formatted using `numeral` npm package. See [here](http://numeraljs.com/) for formatting options.                                                                                                                                                                                              |
-| `padSize`   | int          | If you want to pad the numbers, you can specify the size of total length of string. If generated series is smaller than this length, then it will be left padded with string specified below. |
-| `padString` | string       | If number needs to be padded, it will use this pad string. This can be single char or multi char. If no pad string is specified, then defaults to space.                                      |
+| Option    | Type         | Description                                                                                                                                                                                   |
+| --------- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| start     | int or float | The starting number of the series. It can be integer or float and can also be -ve value. For ex., 1 or 1.5 or -100                                                                                                             |
+| step      | int or float | The amount to increment for each new number. This value will be added to previous value. This can be -ve value if you want to series to go back.                            |
+| count     | int          | The maximum number of values to generate. After these many values are generated, series will start over from `start` value                                                                       |
+| format    | string       | If you want to format the numbers, you can specify the format string here and it will be formatted using `numeral` npm package. See [here](http://numeraljs.com/) for formatting options.                                                                                                                                                                                              |
+| padSize   | int          | If you want to pad the numbers, you can specify the size of total length of string. If generated series is smaller than this length, then it will be left padded with string specified below. |
+| padString | string       | If number needs to be padded, it will use this pad string. This can be single char or multi char. If no pad string is specified, then defaults to space.                                      |
 
 ![](https://i.imgur.com/1rbkYNN.gif)
 
@@ -189,21 +210,109 @@ In later versions, we will add support for custom series.
 
 Here are avaiable presets.
 
-| Type                 | Description                |
-| -------------------- | -------------------------- |
-| `Greek Letter Names` | For ex., Alpha, Beta       |
-| `Greek Lettes`       | For ex., α, β              |
-| `Letters Lowercase`  | For ex., a, b              |
-| `Letters Uppercase`  | For ex., A, B              |
-| `Months Long`        | For ex., January, February |
-| `Months Short`       | For ex., Jan, Feb          |
-| `Number Words`       | For ex., One, Two          |
-| `Roman Numbers`      | For ex., I, II             |
-| `Weekdays Long`      | For ex., Monday, Tuesday   |
-| `Weekdays Short`     | For ex., Mon, Tue          |
+| Type               | Description                |
+| ------------------ | -------------------------- |
+| Greek Letter Names | For ex., Alpha, Beta       |
+| Greek Lettes       | For ex., α, β              |
+| Letters Lowercase  | For ex., a, b              |
+| Letters Uppercase  | For ex., A, B              |
+| Months Long        | For ex., January, February |
+| Months Short       | For ex., Jan, Feb          |
+| Number Words       | For ex., One, Two          |
+| Roman Numbers      | For ex., I, II             |
+| Weekdays Long      | For ex., Monday, Tuesday   |
+| Weekdays Short     | For ex., Mon, Tue          |
+
+Process selections using Custom Script
+--
+The command `Process selections using custom script` prompts use to enter any arbitary javascript expressions and replaces the selections with result of that expression execution.
+
+The custom script can refer to following variables.
+
+| Variable   | Type     | Description                                                                                                                                              |
+| ---------- | -------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| selections | string[] | All the current selections as string array                                                                                                               |
+| selection  | string   | Current selection which the script is processing. If there are more than one selection, then script is executed multiple times (once for each selection) |
+| line       | string   | Applicable only for `Process lines using custom script`. Script is executed for each line with in each of the selections                                 |
+| lodash     | lodash   | This is full lodash reference so you can use any of those functions                                                                                      |
+| _          | lodash   | Alias for `lodash`                                                                                                                                       |
+| moment     | moment   | The moment-timezone reference so you can use it to format dates etc.,                                                                                    |
+| numeral    | numeral  | The numeral reference so you can use it to format numbers etc.,                                                                                          |
+| texty      | object   | Object with various Texty modules. Check out the source evals.ts for more info on available modules                                                      |
+
+Here are some examples.
+
+* Prefix each selection with length of each selections
+  ```
+  selection.length + ' ' + selection
+  ```
+* Reverse the lines
+  ```
+  selection.split('\n').reverse().join('\n')
+  ```
+* Format the numbers using numeral
+  ```
+  numeral(selection).format('0,0.00')
+  ```
+* Use lodash to remove duplicate words in selections
+  ```
+  _.uniq(selection.split(' ')).join(' ')
+  ```
+
+Process lines using Custom Script
+--
+The command `Process lines using custom script` is same as `Process selections using custom script` but it splits each selections into lines,
+then calls the script for each line with in each selections. This script context has access to following variables in addition to above variables.
+
+| Variable | Type     | Description                                        |
+| -------- | -------- | -------------------------------------------------- |
+| lines    | string[] | Lines within the current selection being processed |
+| line     | string   | Line for which script is being executed            |
+
+Process selections using Custom Command
+--
+If you execute a particular script multiple times, then you could save that script as a custom
+command with friendly title and execute that command with easy selection. You can also keybind
+that command if you want to execute that command quickly.
+
+To add a custom command, follow these steps.
+
+* Open the vscode settings json using `Preferences: Open settings (JSON)`
+* Add custom script using syntax below. If you already have `texty` node, then just add additional
+commands as necessary.
+  ```
+    "texty": {
+        "customCommands": {
+            "convertSelectionsIntoLength": {
+                "title": "Convert selections into length",
+                "script": "selection.length"
+            },
+            "addSpaceAroundText": {
+                "title": "Add space around text",
+                "script": "' ' + selection + ' '"
+            }
+        }
+    }
+  ```
+* Restart vscode (you need to restart each time you update the custom commands)
+* During extension init, texty will register each of these commands with prefix `texty.custom.`
+* Run command `Texty: Process selections using costom command`
+* Select your command and it should process text using that command.
+
+These custom commands does't appear in the main command palette because limitation of vscode api however
+you could still keybind those custom commands either from UI or from json as follows.
+
+```
+...
+    {
+        "key": "shift+alt+cmd+n",
+        "command": "texty.custom.convertSelectionsIntoLength"
+    }
+...
+```
 
 Credits
 ==
-* Open source libraries: `lodash`, `jwt-decode`, `entities`, `lorem-ipsum`, `uuid`
-* Logo from https://preview.freelogodesign.org/?lang=EN&autodownload=true&logo=fe445b5c-8f79-400b-8dd7-aaaf99959373
-* Texty is dedicated to my wife Madhu (means honey in Indian)
+* Open source [libraries](https://github.com/datasert/vscode-texty/blob/master/package.json)
+* Logo from [Free Logo Design](https://preview.freelogodesign.org/?lang=EN&autodownload=true&logo=fe445b5c-8f79-400b-8dd7-aaaf99959373)
+* Texty is dedicated to my wife Madhu (means honey)

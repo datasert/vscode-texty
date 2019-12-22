@@ -1,8 +1,5 @@
 import * as utils from "../utils";
-
-function processLines(content: string, handler: (lines: string[]) => string[]) {
-  return handler(content.split(utils.eol)).join(utils.eol);
-}
+import {processLines} from "../utils";
 
 export function sortLines(content: string) {
   return processLines(content, lines => lines.sort());

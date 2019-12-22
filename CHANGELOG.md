@@ -1,7 +1,15 @@
 # Change Log
 All notable changes to the "texty" extension will be documented in this file.
 
-## [0.0.12] - 2019-12-07
+## [1.1.0] - 2019-12-22
+### Added
+- Add `Process selections using custom script` Command
+- Add `Process lines using custom script` Command
+- Add `Process selections using custom command` Command
+- Add `Enable Texty` Command
+- Add `Convert Date/Time to human friendly format` Command
+
+## [1.1.0] - 2019-12-07
 ### Added
 - Add `Copy lines containing string` Command
 - Add `Copy lines not containing string` Command

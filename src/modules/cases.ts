@@ -1,11 +1,4 @@
-import toLower from 'lodash.tolower';
-import toUpper from 'lodash.toupper';
-import camelCase from 'lodash.camelcase';
-import capitalize from 'lodash.capitalize';
-import kebabCase from 'lodash.kebabcase';
-import replace from 'lodash.replace';
-import snakeCase from 'lodash.snakecase';
-import upperFirst from 'lodash.upperfirst';
+import {toLower, toUpper, camelCase, capitalize, kebabCase, replace, snakeCase, upperFirst} from 'lodash';
 import * as utils from '../utils';
 
 /**
