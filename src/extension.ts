@@ -1,27 +1,29 @@
 import * as vscode from 'vscode';
 import * as utils from './utils';
-import * as uuid from './modules/uuid';
+import * as uuid from './modules/ids';
 import * as lorem from './modules/lorem';
 import * as picsum from './modules/picsum';
 import * as cases from './modules/cases';
 import * as crypto from './modules/crypto';
 import * as encode from './modules/encode';
 import * as lines from './modules/lines';
-import * as numberSeries from './modules/numberSeries';
-import * as datetime from './modules/datetime';
+import * as numbers from './modules/numbers';
+import * as dates from './modules/dates';
 import * as open from './modules/open';
 import * as copy from './modules/copy';
-import * as presetSeries from './modules/presetSeries';
+import * as presets from './modules/presets';
+import * as evals from './modules/evals';
 
 let context: vscode.ExtensionContext;
 
 const globalCommands: { [key: string]: () => any } = {
   'createIssue': () => utils.openUrl('https://github.com/datasert/vscode-texty/issues/new'),
+  'enableTexty': () => utils.showInfo('Texty is enabled!'),
 };
 
 const insertTextCommands: { [key: string]: () => undefined | string | Promise<string | undefined> } = {
-  'insertDateTimeIsoString': datetime.getDateTimeIsoString,
-  'insertDateIsoString': datetime.getDateIsoString,
+  'insertDateTimeIsoString': dates.getDateTimeIsoString,
+  'insertDateIsoString': dates.getDateIsoString,
   'insertShortId': uuid.generateShortId,
   'insertUuid': uuid.generateUuid,
   'insertUuidKey': uuid.generateUuidKey,
@@ -38,7 +40,7 @@ const insertTextsCommands: { [key: string]: (count: number) => undefined | strin
   'insertLoremIpsumWithOptions': async count => lorem.generate(count, await lorem.getOptions()),
   'insertLoremPicsum': count => picsum.generate(count, new picsum.Options()),
   'insertLoremPicsumWithOptions': async count => picsum.generate(count, await picsum.getPicsumOptions(context, true)),
-  'insertPresetSeries': async count => presetSeries.generate(count, await presetSeries.getPresetType()),
+  'insertPresetSeries': async count => presets.generate(count, await presets.getPresetType()),
 };
 
 const processTextCommands: { [key: string]: (sels: string) => undefined | string | Promise<string | undefined>} = {
@@ -54,6 +56,8 @@ const processTextCommands: { [key: string]: (sels: string) => undefined | string
   'convertToSpaceCase': cases.convertToSpaceCase,
   'convertToCapitalCase': cases.convertToCapitalCase,
   'convertToSentenceCase': cases.convertToSentenceCase,
+  'convertToRelativeTime': dates.convertToRelativeTime,
+  'convertDateTimeToFriendly': dates.convertToFriendly,
   'viewMd5Hash': crypto.viewMd5Hash,
   'encryptText': crypto.encryptTextWithPrompt,
   'decryptText': crypto.decryptTextWithPrompt,
@@ -97,12 +101,11 @@ const processTextsNewEditorCommands: { [key: string]: (sels: string[]) => undefi
 };
 
 const processTextsCommands: { [key: string]: (sels: string[]) => undefined | string[] | Promise<string[] | undefined>} = {
-  'insertNumberSeriesFrom0': sels => numberSeries.generateFrom0(sels.length),
-  'insertNumberSeriesFrom1': sels => numberSeries.generateFrom1(sels.length),
-  'insertNumberSeriesWithOptions': async sels => numberSeries.generate(sels.length, await numberSeries.getOptions()),
-  'insertDateSeriesWithOptions': async sels => numberSeries.generate(sels.length, await numberSeries.getOptions()),
-  'convertDateTime': async sels => datetime.convertDateTime(sels, await datetime.getConvertTimeOptions()),
-  'convertDateTimeToRelative': async sels => datetime.convertDateTimeToRelative(sels),
+  'insertNumberSeriesFrom0': sels => numbers.generateFrom0(sels.length),
+  'insertNumberSeriesFrom1': sels => numbers.generateFrom1(sels.length),
+  'insertNumberSeriesWithOptions': async sels => numbers.generate(sels.length, await numbers.getOptions()),
+  'insertDateSeriesWithOptions': async sels => numbers.generate(sels.length, await numbers.getOptions()),
+  'convertDateTime': async sels => dates.convertDateTime(sels, await dates.getConvertTimeOptions()),
   'joinLinesWithOptions': async sels => lines.joinLines(sels, await lines.getJoinLinesOptions(true)),
   'filterLinesContainsString': async sels => lines.filterLinesContainsString(sels, await lines.getInputSearchString()),
   'filterLinesNotContainsString': async sels => lines.filterLinesNotContainsString(sels, await lines.getInputSearchString()),
@@ -112,9 +115,25 @@ const processTextsCommands: { [key: string]: (sels: string[]) => undefined | str
   'copyLinesNotContainsString': async sels => lines.copyLinesNotContainsString(sels, await lines.getInputSearchString()),
   'copyLinesContainsRegex': async sels => lines.copyLinesContainsRegex(sels, await lines.getInputSearchRegex()),
   'copyLinesNotContainsRegex': async sels => lines.copyLinesNotContainsRegex(sels, await lines.getInputSearchRegex()),
+  'processSelectionsUsingScript': async sels => evals.processSelectionsUsingScript(sels, await evals.getSelectionEvalScript()),
+  'processLinesUsingScript': async sels => evals.processLinesUsingScript(sels, await evals.getLineEvalScript()),
   'copyText': copy.copyText,
   'copyTextAppend': copy.copyTextAppend,
 };
+
+function registerCustomCommands() {
+  const texty = vscode.workspace.getConfiguration('texty');
+  if (!texty || !texty.customCommands) {
+    return;
+  }
+
+  evals.setCustomCommands(texty.customCommands);
+  utils.registerProcessTextsCommand(`processSelectionsUsingCustomCommand`, sels => evals.processSelectionsUsingCustomCommand(sels));
+
+  Object.keys(texty.customCommands).forEach(command => {
+    utils.registerProcessTextsCommand(`custom.${command}`, sels => evals.processSelectionsUsingScript(sels, texty.customCommands[command].script));
+  });
+}
 
 export function activate(extnContext: vscode.ExtensionContext) {
   context = extnContext;
@@ -126,6 +145,7 @@ export function activate(extnContext: vscode.ExtensionContext) {
   Object.keys(processTextCommands).forEach(command => utils.registerProcessTextCommand(command, processTextCommands[command]));
   Object.keys(processTextsNewEditorCommands).forEach(command => utils.registerProcessTextsNewEditorCommand(command, processTextsNewEditorCommands[command]));
   Object.keys(processTextsCommands).forEach(command => utils.registerProcessTextsCommand(command, processTextsCommands[command]));
+  registerCustomCommands();
 }
 
 export function deactivate() { }

@@ -1,5 +1,4 @@
-import padStart from 'lodash.padstart';
-import * as vscode from 'vscode';
+import {padStart} from 'lodash';
 import numeral from 'numeral';
 import * as utils from '../utils';
 

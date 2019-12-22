@@ -283,6 +283,33 @@ export async function getInputNumber(prompt: string): Promise<number | undefined
   return parseInt(resp);
 }
 
+export type GetInputRequest = {
+  prompt: string;
+  settingsKey: string;
+  type?: string,
+  defaultValue?: string;
+  placeHolder?: string;
+  trimValue?: boolean;
+};
+
+export async function getInput(req: GetInputRequest): Promise<string | undefined> {
+  let value = getSettingString(req.settingsKey) || req.defaultValue;
+
+  const resp = await vscode.window.showInputBox({
+    placeHolder: req.placeHolder,
+    prompt: req.prompt,
+    value,
+  });
+
+  if (!resp) {
+    return undefined;
+  }
+
+  setSetting(req.settingsKey, resp);
+
+  return req.trimValue === false ? resp : resp.trim();
+}
+
 export async function getInputString(prompt: string): Promise<string | undefined> {
   const resp = await vscode.window.showInputBox({
     prompt,
@@ -446,4 +473,8 @@ export function splitArray<T>(myArray: T[], chunkSize: number): T[][] {
     all[ch] = [].concat((all[ch] || []), one);
     return all;
   }, []);
+}
+
+export function processLines(content: string, handler: (lines: string[]) => string[]) {
+  return handler(content.split(eol)).join(eol);
 }
