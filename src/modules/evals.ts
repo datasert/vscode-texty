@@ -8,7 +8,7 @@ import * as copy from './copy';
 import * as crypto from './crypto';
 import * as dates from './dates';
 import * as encode from './encode';
-import * as lines from './lines';
+import * as linesModule from './lines';
 import * as lorem from './lorem';
 import * as numbers from './numbers';
 import * as open from './open';
@@ -44,6 +44,8 @@ function createContext(sels: string[], sel: string, lines?: string[], line?: str
   const context = {
     selections: sels,
     selection: sel,
+    lines,
+    line,
     lodash,
     _: lodash,
     moment,
@@ -54,7 +56,7 @@ function createContext(sels: string[], sel: string, lines?: string[], line?: str
       crypto,
       dates,
       encode,
-      lines,
+      lines: linesModule,
       lorem,
       numbers,
       open,
