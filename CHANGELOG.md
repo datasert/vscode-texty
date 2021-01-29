@@ -1,8 +1,17 @@
 # Change Log
+
 All notable changes to the "texty" extension will be documented in this file.
 
+## [1.1.2] - 2021-01-28
+
+### Fixed
+
+- Fix issue with url decode command (https://github.com/datasert/vscode-texty/pull/5)
+
 ## [1.1.1] - 2019-12-22
+
 ### Added
+
 - Add `Process selections using custom script` Command
 - Add `Process lines using custom script` Command
 - Add `Process selections using custom command` Command
@@ -10,7 +19,9 @@ All notable changes to the "texty" extension will be documented in this file.
 - Add `Convert Date/Time to human friendly format` Command
 
 ## [1.0.0] - 2019-12-07
+
 ### Added
+
 - Add `Copy lines containing string` Command
 - Add `Copy lines not containing string` Command
 - Add `Copy lines containing regex` Command
@@ -18,14 +29,18 @@ All notable changes to the "texty" extension will be documented in this file.
 - Add `Insert Preset Series` Command
 
 ## [0.0.9] - 2019-12-01
+
 ### Added
+
 - Add `Join lines with space` Command
 - Add `Join lines to csv` Command
 - Add `Join lines for In clause` Command
 - Add `Join lines (with options)` Command
 
 ## [0.0.8] - 2019-11-30
+
 ### Added
+
 - Add `Open file in System default app` Command
 - Add `Open file in Browser` Command
 - Add `Open file in Browser...` Command
@@ -43,7 +58,9 @@ All notable changes to the "texty" extension will be documented in this file.
 - Add `Convert Date/Time to relative time` Command
 
 ## [0.0.7] - 2019-11-29
+
 ### Added
+
 - Add `Insert Short Id` Command
 - Add `Insert Short Id` Command
 - Add `Insert Number Series` Command

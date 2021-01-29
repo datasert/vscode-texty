@@ -1,605 +1,605 @@
 {
- "name": "vscode-texty",
- "displayName": "Texty",
- "description": "Sweet set of text utilities (filter, sort, remove, split, join, insert, open, encode/decode, encrypt)",
- "publisher": "datasert",
- "version": "1.1.1",
- "repository": {
-  "url": "https://github.com/datasert/vscode-texty"
- },
- "engines": {
-  "vscode": "^1.40.0"
- },
- "icon": "texty.png",
- "categories": [
-  "Other"
- ],
- "keywords": [
-  "sort lines",
-  "copy",
-  "insert",
-  "filter lines",
-  "remove lines",
-  "split",
-  "join",
-  "encode/decode",
-  "encrypt/descrypt",
-  "convert dates",
-  "change case"
- ],
- "preview": false,
- "activationEvents": [
-  "onCommand:texty.copyText",
-  "onCommand:texty.copyTextAppend",
-  "onCommand:texty.copyLinesContainsString",
-  "onCommand:texty.copyLinesNotContainsString",
-  "onCommand:texty.copyLinesContainsRegex",
-  "onCommand:texty.copyLinesNotContainsRegex",
-  "onCommand:texty.filterLinesContainsString",
-  "onCommand:texty.filterLinesNotContainsString",
-  "onCommand:texty.filterLinesContainsRegex",
-  "onCommand:texty.filterLinesNotContainsRegex",
-  "onCommand:texty.filterLinesContainsStringNewEditor",
-  "onCommand:texty.filterLinesNotContainsStringNewEditor",
-  "onCommand:texty.filterLinesContainsRegexNewEditor",
-  "onCommand:texty.filterLinesNotContainsRegexNewEditor",
-  "onCommand:texty.translateUsingGoogle",
-  "onCommand:texty.insertDateTimeIsoString",
-  "onCommand:texty.insertDateIsoString",
-  "onCommand:texty.insertUuid",
-  "onCommand:texty.insertUuidKey",
-  "onCommand:texty.insertUuidNoDashes",
-  "onCommand:texty.insertShortId",
-  "onCommand:texty.insertLoremIpsumParagraph",
-  "onCommand:texty.insertLoremIpsumLine",
-  "onCommand:texty.insertLoremIpsumWord",
-  "onCommand:texty.insertLoremIpsumWithOptions",
-  "onCommand:texty.insertLoremPicsum",
-  "onCommand:texty.insertLoremPicsumWithOptions",
-  "onCommand:texty.insertPresetSeries",
-  "onCommand:texty.insertNumberSeriesFrom0",
-  "onCommand:texty.insertNumberSeriesFrom1",
-  "onCommand:texty.insertNumberSeriesWithOptions",
-  "onCommand:texty.convertToLowerCase",
-  "onCommand:texty.convertToUpperCase",
-  "onCommand:texty.convertToCamelCase",
-  "onCommand:texty.convertToPascalCase",
-  "onCommand:texty.convertToSnakeCase",
-  "onCommand:texty.convertToKebabCase",
-  "onCommand:texty.convertToConstantCase",
-  "onCommand:texty.convertToDotCase",
-  "onCommand:texty.convertToPathCase",
-  "onCommand:texty.convertToSpaceCase",
-  "onCommand:texty.convertToCapitalCase",
-  "onCommand:texty.convertToSentenceCase",
-  "onCommand:texty.convertDateTime",
-  "onCommand:texty.convertDateTimeToFriendly",
-  "onCommand:texty.convertToRelativeTime",
-  "onCommand:texty.viewMd5Hash",
-  "onCommand:texty.encryptText",
-  "onCommand:texty.decryptText",
-  "onCommand:texty.urlEncode",
-  "onCommand:texty.urlDecode",
-  "onCommand:texty.base64Encode",
-  "onCommand:texty.base64Decode",
-  "onCommand:texty.htmlEncode",
-  "onCommand:texty.htmlDecode",
-  "onCommand:texty.xmlEncode",
-  "onCommand:texty.xmlDecode",
-  "onCommand:texty.sortLines",
-  "onCommand:texty.sortLinesReverse",
-  "onCommand:texty.sortLinesIgnoreCase",
-  "onCommand:texty.sortLinesIgnoreCaseReverse",
-  "onCommand:texty.sortLinesByLength",
-  "onCommand:texty.sortLinesByLengthReverse",
-  "onCommand:texty.sortLinesRandom",
-  "onCommand:texty.sortLinesNatural",
-  "onCommand:texty.sortLinesNaturalReverse",
-  "onCommand:texty.joinLinesWithOptions",
-  "onCommand:texty.joinLinesForInClause",
-  "onCommand:texty.joinLinesToCsv",
-  "onCommand:texty.joinLinesWithSpace",
-  "onCommand:texty.removeDuplicates",
-  "onCommand:texty.removeDuplicatesIgnoreCase",
-  "onCommand:texty.removeBlankLines",
-  "onCommand:texty.removeBlankLinesSurplus",
-  "onCommand:texty.splitBySentences",
-  "onCommand:texty.splitByLength",
-  "onCommand:texty.splitByLength120",
-  "onCommand:texty.splitByLength80",
-  "onCommand:texty.openFileInSystemDefaultApp",
-  "onCommand:texty.openFileInBrowser",
-  "onCommand:texty.openFileInBrowserPrompt",
-  "onCommand:texty.processSelectionsUsingScript",
-  "onCommand:texty.processLinesUsingScript",
-  "onCommand:texty.processSelectionsUsingCustomCommand",
-  "onCommand:texty.enableTexty",
-  "onCommand:texty.createIssue"
- ],
- "main": "./out/extension.js",
- "contributes": {
-  "commands": [
-   {
-    "category": "Texty",
-    "command": "texty.copyText",
-    "title": "Copy text"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.copyTextAppend",
-    "title": "Copy text append"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.openFileInSystemDefaultApp",
-    "title": "Open file in System default app"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.openFileInBrowser",
-    "title": "Open file in Browser"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.openFileInBrowserPrompt",
-    "title": "Open file in Browser..."
-   },
-   {
-    "category": "Texty",
-    "command": "texty.copyLinesContainsString",
-    "title": "Copy lines containing string"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.copyLinesNotContainsString",
-    "title": "Copy lines not containing string"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.copyLinesContainsRegex",
-    "title": "Copy lines containing regex"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.copyLinesNotContainsRegex",
-    "title": "Copy lines not containing regex"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.filterLinesContainsString",
-    "title": "Filter lines containing string"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.filterLinesNotContainsString",
-    "title": "Filter lines not containing string"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.filterLinesContainsRegex",
-    "title": "Filter lines containing regex"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.filterLinesNotContainsRegex",
-    "title": "Filter lines not containing regex"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.filterLinesContainsStringNewEditor",
-    "title": "Filter lines containing string into new editor"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.filterLinesNotContainsStringNewEditor",
-    "title": "Filter lines not containing string into new editor"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.filterLinesContainsRegexNewEditor",
-    "title": "Filter lines containing regex into new editor"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.filterLinesNotContainsRegexNewEditor",
-    "title": "Filter lines not containing regex into new editor"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.translateUsingGoogle",
-    "title": "Translate using Google"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertDateTimeIsoString",
-    "title": "Insert DateTime ISO Format"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertDateIsoString",
-    "title": "Insert Date ISO Format"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertShortId",
-    "title": "Insert Short Id"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertUuid",
-    "title": "Insert Uuid"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertUuid",
-    "title": "Insert Uuid"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertUuidKey",
-    "title": "Insert Uuid (Registery Key Format)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertUuidNoDashes",
-    "title": "Insert Uuid (No Dashes)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertLoremIpsumParagraph",
-    "title": "Insert Lorem Ipsum Paragraph"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertLoremIpsumLine",
-    "title": "Insert Lorem Ipsum Line"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertLoremIpsumWord",
-    "title": "Insert Lorem Ipsum Word"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertLoremIpsumWithOptions",
-    "title": "Insert Lorem Ipsum with Options"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertLoremPicsum",
-    "title": "Insert Lorem Picsum Urls"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertLoremPicsumWithOptions",
-    "title": "Insert Lorem Picsum Urls with options"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertNumberSeriesFrom0",
-    "title": "Insert Number Series from 0"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertNumberSeriesFrom1",
-    "title": "Insert Number Series from 1"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertNumberSeriesWithOptions",
-    "title": "Insert Number Series with options"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.insertPresetSeries",
-    "title": "Insert Preset Series"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToCapitalCase",
-    "title": "Convert to Upper Case (For ex., Account Number)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToLowerCase",
-    "title": "Convert to Lower Case (For ex., account number)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToUpperCase",
-    "title": "Convert to Upper Case (For ex., ACCOUNT NUMBER)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToCamelCase",
-    "title": "Convert to Camel Case (For ex., accountNumber)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToPascalCase",
-    "title": "Convert to Pascal Case (For ex., AccountNumber)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToSnakeCase",
-    "title": "Convert to Snake Case (For ex., account_number)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToKebabCase",
-    "title": "Convert to Kebab Case (For ex., account-number)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToConstantCase",
-    "title": "Convert to Constant Case (For ex., ACCOUNT_NUMBER)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToDotCase",
-    "title": "Convert to Dot Case (For ex., account.number)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToPathCase",
-    "title": "Convert to Path Case (For ex., account/number)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToSpaceCase",
-    "title": "Convert to Space Case (For ex., account number)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToSentenceCase",
-    "title": "Convert to Sentence Case (For ex., Account number)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertDateTime",
-    "title": "Convert Date/Time to different format or timezone with options"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertDateTimeToFriendly",
-    "title": "Convert Date/Time to human friendly format"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.convertToRelativeTime",
-    "title": "Convert Date/Time to Relative time"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.viewMd5Hash",
-    "title": "Views Md5 hash"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.encryptText",
-    "title": "Encrypt Text using Password"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.decryptText",
-    "title": "Decrypt Text using Password"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.urlEncode",
-    "title": "Url Encode"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.urlDecode",
-    "title": "Url Decode"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.base64Encode",
-    "title": "Base64 Encode"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.base64Decode",
-    "title": "Base64 Decode"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.htmlEncode",
-    "title": "Html Encode"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.htmlDecode",
-    "title": "Html Decode"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.xmlEncode",
-    "title": "Xml Encode"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.xmlDecode",
-    "title": "Xml Decode"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.jwtDecode",
-    "title": "Jwt Decode"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.sortLines",
-    "title": "Sort Lines"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.sortLinesReverse",
-    "title": "Sort Lines (Descending)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.sortLinesIgnoreCase",
-    "title": "Sort Lines (Ignore Case)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.sortLinesIgnoreCaseReverse",
-    "title": "Sort Lines (Descending Ignore Case)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.sortLinesByLength",
-    "title": "Sort Lines (Length)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.sortLinesByLengthReverse",
-    "title": "Sort Lines (Length Descending)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.sortLinesShuffle",
-    "title": "Sort Lines (Shuffle)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.sortLinesNatural",
-    "title": "Sort Lines (Natural)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.sortLinesNaturalReverse",
-    "title": "Sort Lines (Natural Descending)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.joinLinesForInClause",
-    "title": "Join lines for In clause"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.joinLinesToCsv",
-    "title": "Join lines to csv"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.joinLinesWithSpace",
-    "title": "Join lines with space"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.joinLinesWithOptions",
-    "title": "Join lines with options"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.removeDuplicates",
-    "title": "Remove Duplicate Lines"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.removeDuplicatesIgnoreCase",
-    "title": "Remove Duplicate Lines (Ignore Case)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.removeBlankLines",
-    "title": "Remove Blank Lines"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.removeBlankLinesSurplus",
-    "title": "Remove Blank Lines (Surplus)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.splitBySentences",
-    "title": "Split by Sentences"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.splitByLength120",
-    "title": "Split by Length (120 chars)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.splitByLength80",
-    "title": "Split by Length (80 chars)"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.splitByLength",
-    "title": "Split by Length"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.processSelectionsUsingScript",
-    "title": "Process selections using script"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.processLinesUsingScript",
-    "title": "Process lines using script"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.enableTexty",
-    "title": "Enable Texty"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.processSelectionsUsingCustomCommand",
-    "title": "Process selections using custom command"
-   },
-   {
-    "category": "Texty",
-    "command": "texty.createIssue",
-    "title": "Create Issue"
-   }
-  ]
- },
- "scripts": {
-  "vscode:prepublish": "yarn run compile",
-  "compile": "tsc -p ./",
-  "watch": "tsc -watch -p ./",
-  "pretest": "yarn run compile",
-  "test": "node ./out/test/runTest.js"
- },
- "devDependencies": {
-  "@types/glob": "^7.1.1",
-  "@types/jwt-decode": "^2.2.1",
-  "@types/lorem-ipsum": "^2.0.0",
-  "@types/mocha": "^5.2.7",
-  "@types/moment-timezone": "^0.5.12",
-  "@types/node": "^12.12.14",
-  "@types/numeral": "0.0.26",
-  "@types/open": "^6.2.1",
-  "@types/sjcl": "^1.0.28",
-  "@types/uniqid": "^4.1.3",
-  "@types/uuid": "^3.4.6",
-  "@types/vscode": "^1.40.0",
-  "@types/clipboardy": "^2.0.1",
-  "@types/lodash": "^4.14.149",
-  "glob": "^7.1.5",
-  "mocha": "^6.2.2",
-  "tslint": "^5.20.0",
-  "typescript": "^3.6.4",
-  "vscode-test": "^1.2.2"
- },
- "dependencies": {
-  "clipboardy": "^2.1.0",
-  "entities": "^2.0.0",
-  "jwt-decode": "^2.2.0",
-  "lodash": "^4.17.15",
-  "lorem-ipsum": "^2.0.3",
-  "moment-timezone": "^0.5.27",
-  "numeral": "^2.0.6",
-  "open": "^7.0.0",
-  "sjcl": "^1.0.8",
-  "uniqid": "^5.2.0",
-  "uuid": "^3.3.3"
- }
+  "name": "vscode-texty",
+  "displayName": "Texty",
+  "description": "Sweet set of text utilities (filter, sort, remove, split, join, insert, open, encode/decode, encrypt)",
+  "publisher": "datasert",
+  "version": "1.1.2",
+  "repository": {
+    "url": "https://github.com/datasert/vscode-texty"
+  },
+  "engines": {
+    "vscode": "^1.40.0"
+  },
+  "icon": "texty.png",
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "sort lines",
+    "copy",
+    "insert",
+    "filter lines",
+    "remove lines",
+    "split",
+    "join",
+    "encode/decode",
+    "encrypt/descrypt",
+    "convert dates",
+    "change case"
+  ],
+  "preview": false,
+  "activationEvents": [
+    "onCommand:texty.copyText",
+    "onCommand:texty.copyTextAppend",
+    "onCommand:texty.copyLinesContainsString",
+    "onCommand:texty.copyLinesNotContainsString",
+    "onCommand:texty.copyLinesContainsRegex",
+    "onCommand:texty.copyLinesNotContainsRegex",
+    "onCommand:texty.filterLinesContainsString",
+    "onCommand:texty.filterLinesNotContainsString",
+    "onCommand:texty.filterLinesContainsRegex",
+    "onCommand:texty.filterLinesNotContainsRegex",
+    "onCommand:texty.filterLinesContainsStringNewEditor",
+    "onCommand:texty.filterLinesNotContainsStringNewEditor",
+    "onCommand:texty.filterLinesContainsRegexNewEditor",
+    "onCommand:texty.filterLinesNotContainsRegexNewEditor",
+    "onCommand:texty.translateUsingGoogle",
+    "onCommand:texty.insertDateTimeIsoString",
+    "onCommand:texty.insertDateIsoString",
+    "onCommand:texty.insertUuid",
+    "onCommand:texty.insertUuidKey",
+    "onCommand:texty.insertUuidNoDashes",
+    "onCommand:texty.insertShortId",
+    "onCommand:texty.insertLoremIpsumParagraph",
+    "onCommand:texty.insertLoremIpsumLine",
+    "onCommand:texty.insertLoremIpsumWord",
+    "onCommand:texty.insertLoremIpsumWithOptions",
+    "onCommand:texty.insertLoremPicsum",
+    "onCommand:texty.insertLoremPicsumWithOptions",
+    "onCommand:texty.insertPresetSeries",
+    "onCommand:texty.insertNumberSeriesFrom0",
+    "onCommand:texty.insertNumberSeriesFrom1",
+    "onCommand:texty.insertNumberSeriesWithOptions",
+    "onCommand:texty.convertToLowerCase",
+    "onCommand:texty.convertToUpperCase",
+    "onCommand:texty.convertToCamelCase",
+    "onCommand:texty.convertToPascalCase",
+    "onCommand:texty.convertToSnakeCase",
+    "onCommand:texty.convertToKebabCase",
+    "onCommand:texty.convertToConstantCase",
+    "onCommand:texty.convertToDotCase",
+    "onCommand:texty.convertToPathCase",
+    "onCommand:texty.convertToSpaceCase",
+    "onCommand:texty.convertToCapitalCase",
+    "onCommand:texty.convertToSentenceCase",
+    "onCommand:texty.convertDateTime",
+    "onCommand:texty.convertDateTimeToFriendly",
+    "onCommand:texty.convertToRelativeTime",
+    "onCommand:texty.viewMd5Hash",
+    "onCommand:texty.encryptText",
+    "onCommand:texty.decryptText",
+    "onCommand:texty.urlEncode",
+    "onCommand:texty.urlDecode",
+    "onCommand:texty.base64Encode",
+    "onCommand:texty.base64Decode",
+    "onCommand:texty.htmlEncode",
+    "onCommand:texty.htmlDecode",
+    "onCommand:texty.xmlEncode",
+    "onCommand:texty.xmlDecode",
+    "onCommand:texty.sortLines",
+    "onCommand:texty.sortLinesReverse",
+    "onCommand:texty.sortLinesIgnoreCase",
+    "onCommand:texty.sortLinesIgnoreCaseReverse",
+    "onCommand:texty.sortLinesByLength",
+    "onCommand:texty.sortLinesByLengthReverse",
+    "onCommand:texty.sortLinesRandom",
+    "onCommand:texty.sortLinesNatural",
+    "onCommand:texty.sortLinesNaturalReverse",
+    "onCommand:texty.joinLinesWithOptions",
+    "onCommand:texty.joinLinesForInClause",
+    "onCommand:texty.joinLinesToCsv",
+    "onCommand:texty.joinLinesWithSpace",
+    "onCommand:texty.removeDuplicates",
+    "onCommand:texty.removeDuplicatesIgnoreCase",
+    "onCommand:texty.removeBlankLines",
+    "onCommand:texty.removeBlankLinesSurplus",
+    "onCommand:texty.splitBySentences",
+    "onCommand:texty.splitByLength",
+    "onCommand:texty.splitByLength120",
+    "onCommand:texty.splitByLength80",
+    "onCommand:texty.openFileInSystemDefaultApp",
+    "onCommand:texty.openFileInBrowser",
+    "onCommand:texty.openFileInBrowserPrompt",
+    "onCommand:texty.processSelectionsUsingScript",
+    "onCommand:texty.processLinesUsingScript",
+    "onCommand:texty.processSelectionsUsingCustomCommand",
+    "onCommand:texty.enableTexty",
+    "onCommand:texty.createIssue"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "category": "Texty",
+        "command": "texty.copyText",
+        "title": "Copy text"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.copyTextAppend",
+        "title": "Copy text append"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.openFileInSystemDefaultApp",
+        "title": "Open file in System default app"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.openFileInBrowser",
+        "title": "Open file in Browser"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.openFileInBrowserPrompt",
+        "title": "Open file in Browser..."
+      },
+      {
+        "category": "Texty",
+        "command": "texty.copyLinesContainsString",
+        "title": "Copy lines containing string"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.copyLinesNotContainsString",
+        "title": "Copy lines not containing string"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.copyLinesContainsRegex",
+        "title": "Copy lines containing regex"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.copyLinesNotContainsRegex",
+        "title": "Copy lines not containing regex"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.filterLinesContainsString",
+        "title": "Filter lines containing string"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.filterLinesNotContainsString",
+        "title": "Filter lines not containing string"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.filterLinesContainsRegex",
+        "title": "Filter lines containing regex"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.filterLinesNotContainsRegex",
+        "title": "Filter lines not containing regex"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.filterLinesContainsStringNewEditor",
+        "title": "Filter lines containing string into new editor"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.filterLinesNotContainsStringNewEditor",
+        "title": "Filter lines not containing string into new editor"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.filterLinesContainsRegexNewEditor",
+        "title": "Filter lines containing regex into new editor"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.filterLinesNotContainsRegexNewEditor",
+        "title": "Filter lines not containing regex into new editor"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.translateUsingGoogle",
+        "title": "Translate using Google"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertDateTimeIsoString",
+        "title": "Insert DateTime ISO Format"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertDateIsoString",
+        "title": "Insert Date ISO Format"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertShortId",
+        "title": "Insert Short Id"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertUuid",
+        "title": "Insert Uuid"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertUuid",
+        "title": "Insert Uuid"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertUuidKey",
+        "title": "Insert Uuid (Registery Key Format)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertUuidNoDashes",
+        "title": "Insert Uuid (No Dashes)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertLoremIpsumParagraph",
+        "title": "Insert Lorem Ipsum Paragraph"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertLoremIpsumLine",
+        "title": "Insert Lorem Ipsum Line"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertLoremIpsumWord",
+        "title": "Insert Lorem Ipsum Word"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertLoremIpsumWithOptions",
+        "title": "Insert Lorem Ipsum with Options"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertLoremPicsum",
+        "title": "Insert Lorem Picsum Urls"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertLoremPicsumWithOptions",
+        "title": "Insert Lorem Picsum Urls with options"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertNumberSeriesFrom0",
+        "title": "Insert Number Series from 0"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertNumberSeriesFrom1",
+        "title": "Insert Number Series from 1"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertNumberSeriesWithOptions",
+        "title": "Insert Number Series with options"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.insertPresetSeries",
+        "title": "Insert Preset Series"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToCapitalCase",
+        "title": "Convert to Upper Case (For ex., Account Number)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToLowerCase",
+        "title": "Convert to Lower Case (For ex., account number)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToUpperCase",
+        "title": "Convert to Upper Case (For ex., ACCOUNT NUMBER)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToCamelCase",
+        "title": "Convert to Camel Case (For ex., accountNumber)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToPascalCase",
+        "title": "Convert to Pascal Case (For ex., AccountNumber)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToSnakeCase",
+        "title": "Convert to Snake Case (For ex., account_number)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToKebabCase",
+        "title": "Convert to Kebab Case (For ex., account-number)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToConstantCase",
+        "title": "Convert to Constant Case (For ex., ACCOUNT_NUMBER)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToDotCase",
+        "title": "Convert to Dot Case (For ex., account.number)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToPathCase",
+        "title": "Convert to Path Case (For ex., account/number)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToSpaceCase",
+        "title": "Convert to Space Case (For ex., account number)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToSentenceCase",
+        "title": "Convert to Sentence Case (For ex., Account number)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertDateTime",
+        "title": "Convert Date/Time to different format or timezone with options"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertDateTimeToFriendly",
+        "title": "Convert Date/Time to human friendly format"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.convertToRelativeTime",
+        "title": "Convert Date/Time to Relative time"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.viewMd5Hash",
+        "title": "Views Md5 hash"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.encryptText",
+        "title": "Encrypt Text using Password"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.decryptText",
+        "title": "Decrypt Text using Password"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.urlEncode",
+        "title": "Url Encode"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.urlDecode",
+        "title": "Url Decode"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.base64Encode",
+        "title": "Base64 Encode"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.base64Decode",
+        "title": "Base64 Decode"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.htmlEncode",
+        "title": "Html Encode"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.htmlDecode",
+        "title": "Html Decode"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.xmlEncode",
+        "title": "Xml Encode"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.xmlDecode",
+        "title": "Xml Decode"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.jwtDecode",
+        "title": "Jwt Decode"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.sortLines",
+        "title": "Sort Lines"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.sortLinesReverse",
+        "title": "Sort Lines (Descending)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.sortLinesIgnoreCase",
+        "title": "Sort Lines (Ignore Case)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.sortLinesIgnoreCaseReverse",
+        "title": "Sort Lines (Descending Ignore Case)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.sortLinesByLength",
+        "title": "Sort Lines (Length)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.sortLinesByLengthReverse",
+        "title": "Sort Lines (Length Descending)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.sortLinesShuffle",
+        "title": "Sort Lines (Shuffle)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.sortLinesNatural",
+        "title": "Sort Lines (Natural)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.sortLinesNaturalReverse",
+        "title": "Sort Lines (Natural Descending)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.joinLinesForInClause",
+        "title": "Join lines for In clause"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.joinLinesToCsv",
+        "title": "Join lines to csv"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.joinLinesWithSpace",
+        "title": "Join lines with space"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.joinLinesWithOptions",
+        "title": "Join lines with options"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.removeDuplicates",
+        "title": "Remove Duplicate Lines"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.removeDuplicatesIgnoreCase",
+        "title": "Remove Duplicate Lines (Ignore Case)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.removeBlankLines",
+        "title": "Remove Blank Lines"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.removeBlankLinesSurplus",
+        "title": "Remove Blank Lines (Surplus)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.splitBySentences",
+        "title": "Split by Sentences"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.splitByLength120",
+        "title": "Split by Length (120 chars)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.splitByLength80",
+        "title": "Split by Length (80 chars)"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.splitByLength",
+        "title": "Split by Length"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.processSelectionsUsingScript",
+        "title": "Process selections using script"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.processLinesUsingScript",
+        "title": "Process lines using script"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.enableTexty",
+        "title": "Enable Texty"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.processSelectionsUsingCustomCommand",
+        "title": "Process selections using custom command"
+      },
+      {
+        "category": "Texty",
+        "command": "texty.createIssue",
+        "title": "Create Issue"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/glob": "^7.1.1",
+    "@types/jwt-decode": "^2.2.1",
+    "@types/lorem-ipsum": "^2.0.0",
+    "@types/mocha": "^5.2.7",
+    "@types/moment-timezone": "^0.5.12",
+    "@types/node": "^12.12.14",
+    "@types/numeral": "0.0.26",
+    "@types/open": "^6.2.1",
+    "@types/sjcl": "^1.0.28",
+    "@types/uniqid": "^4.1.3",
+    "@types/uuid": "^3.4.6",
+    "@types/vscode": "^1.40.0",
+    "@types/clipboardy": "^2.0.1",
+    "@types/lodash": "^4.14.149",
+    "glob": "^7.1.5",
+    "mocha": "^6.2.2",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.4",
+    "vscode-test": "^1.2.2"
+  },
+  "dependencies": {
+    "clipboardy": "^2.1.0",
+    "entities": "^2.0.0",
+    "jwt-decode": "^2.2.0",
+    "lodash": "^4.17.20",
+    "lorem-ipsum": "^2.0.3",
+    "moment-timezone": "^0.5.27",
+    "numeral": "^2.0.6",
+    "open": "^7.0.0",
+    "sjcl": "^1.0.8",
+    "uniqid": "^5.2.0",
+    "uuid": "^3.3.3"
+  }
 }
