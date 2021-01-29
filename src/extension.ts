@@ -62,7 +62,7 @@ const processTextCommands: { [key: string]: (sels: string) => undefined | string
   'encryptText': crypto.encryptTextWithPrompt,
   'decryptText': crypto.decryptTextWithPrompt,
   'urlEncode': encode.urlEncode,
-  'urlDecode': encode.urlEncode,
+  'urlDecode': encode.urlDecode,
   'htmlEncode': encode.htmlEncode,
   'htmlDecode': encode.htmlDecode,
   'xmlEncode': encode.xmlEncode,
