@@ -7,6 +7,7 @@
   "repository": {
     "url": "https://github.com/datasert/vscode-texty"
   },
+  "license": "Apache-2.0",
   "engines": {
     "vscode": "^1.40.0"
   },
@@ -566,7 +567,8 @@
     "compile": "tsc -p ./",
     "watch": "tsc -watch -p ./",
     "pretest": "yarn run compile",
-    "test": "node ./out/test/runTest.js"
+    "test": "node ./out/test/runTest.js",
+    "publishvsx": "npx ovsx publish -p $OPENVSX_TOKEN"
   },
   "devDependencies": {
     "@types/glob": "^7.1.1",
