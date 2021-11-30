@@ -595,7 +595,7 @@
     "clipboardy": "^2.1.0",
     "entities": "^2.0.0",
     "jwt-decode": "^2.2.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "lorem-ipsum": "^2.0.3",
     "moment-timezone": "^0.5.27",
     "numeral": "^2.0.6",
